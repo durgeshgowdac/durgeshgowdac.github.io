@@ -1,0 +1,13 @@
+services:
+  - type: web
+    runtime: static
+    name: durgeshgowdac
+    buildCommand: npm ci && npm run build
+    staticPublishPath: out
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NEXT_PUBLIC_NOINDEX
+        value: "true"
+      - key: GITHUB_TOKEN
+        sync: false
