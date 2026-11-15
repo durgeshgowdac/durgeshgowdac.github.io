@@ -1,31 +1,63 @@
-# dependencies
+# --- Dependencies ---
 node_modules/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
 
-# Next.js
+# --- Next.js build output ---
 .next/
 out/
 next-env.d.ts
 *.tsbuildinfo
 
-# env files
+# --- Environment files and secrets ---
 .env*
 !.env.example
+.dev.vars*
+*.pem
+*.key
+service-account*.json
+*-firebase-adminsdk-*.json
 
-# logs and OS junk
+# --- Hosting CLI state (Firebase, Cloudflare, Vercel, Netlify) ---
+.firebase/
+.wrangler/
+.vercel/
+.netlify/
+
+# --- Logs and caches ---
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+.eslintcache
+.cache/
+coverage/
+
+# --- OS junk ---
 .DS_Store
+._*
 __MACOSX/
+Thumbs.db
+Desktop.ini
 
-# cast artwork tooling (tools/cast/build.sh)
-.venv/
-__pycache__/
-tools/cast/.build/
-
-# generated file listings
-tree.txt
-
-# editor
+# --- Editors ---
 .vscode/
 .idea/
+*.swp
+*.swo
+
+# --- Cast artwork tooling (tools/cast/build.sh) ---
+.venv/
+__pycache__/
+*.pyc
+tools/cast/.build/
+
+# --- Packaging leftovers ---
+*.tgz
+*.zip

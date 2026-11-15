@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "prod": "durgeshgowdac",
+    "default": "durgeshgowdac"
+  },
+  "targets": {},
+  "etags": {}
+}
