@@ -1,0 +1,154 @@
+/* ═══════════════════════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* FOREST theme (Nature mode) — a bright clearing, not a beige waiting room */
+  --bg:           #e7f0da;
+  --bg2:          #cee0b4;
+  --fg:           #14201a;
+  --fg2:          #35492f;
+  --fg3:          #4f6b48; /* verified ~5:1 against --bg */
+  --card-bg:      #f6faec;
+  --card-border:  #b9d19d;
+  --bg-rgb:       231, 240, 218;   /* --bg as a triplet, for rgba(var(--bg-rgb), a) */
+  --nav-bg:       rgba(var(--bg-rgb), 0.92);
+  --shadow:       0 2px 24px rgba(30,50,15,0.10);
+  --shadow-hover: 0 8px 48px rgba(30,50,15,0.18);
+  --shadow-card-hover: 0 18px 34px -14px rgba(0,0,0,0.22);
+  --focus-ring:   rgba(26,26,24,0.07);
+
+  /* Text/borders drawn on top of the --fg wipe-fill that covers a project card on hover.
+     Light theme: fill is dark, so ink is white. Dark theme: fill is pale, so ink is near-black. */
+  --on-fill:       #fff;
+  --on-fill-rgb:   255, 255, 255;
+  --on-fill-body:  rgba(255,255,255,0.75);
+  --on-fill-arrow: rgba(255,255,255,0.7);
+
+  /* Hero atmosphere */
+  --hero-orb:     rgba(122,158,92,0.10);
+  --hero-glow-a:  transparent;
+  --hero-glow-b:  transparent;
+  --star-rgb:     255, 255, 255;
+  --radius:       6px;
+  --ease:         cubic-bezier(0.4, 0, 0.2, 1);
+  --scene-ease:   cubic-bezier(0.45, 0.05, 0.35, 1);   /* every idle loop in the scenery breathes on this one curve */
+  --t:            0.35s;
+  --header-h:     64px;
+  /* Edit this one number to change how many project cards sit per row on
+     desktop (≥1025px) — tablet/mobile fall back to 2/1 regardless. */
+  --cards-per-row: 3;
+
+  /* TYPOGRAPHY — three families, named by role. DM Serif / DM Mono come from next/font (see layout.tsx). */
+  --font-body:    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+  --font-mono:    var(--font-dm-mono), 'DM Mono', ui-monospace, monospace;   /* labels, tags, chips, eyebrows */
+  --font-display: var(--font-dm-serif), 'DM Serif Display', Georgia, serif;  /* headings, quotes */
+
+  /* SPACING — shared rhythm for page sections. Use these instead of one-off pixel values. */
+  --card-gap:           16px;   /* between cards, rows and columns; badge → cards */
+  --heading-gap:        28px;   /* section heading → its content */
+  --section-pad-top:    64px;   /* top padding of a full-width section */
+  --section-pad-bottom: 120px;  /* bottom padding of a full-width section (shrinks below) */
+  --frame-gap:          32px;   /* between stacked full-width framed sections (About Inspiration → Sports) */
+  --section-title-size: clamp(1.7rem, 4vw, 2.6rem);   /* every section h2: Projects, Contact, About cards */
+  --section-title-tracking: -0.025em;
+
+  /* SCENERY — one palette per world; the SVG parts only ever read these */
+  --sc-line:#3e6a3a; --sc-far:#c6dcac; --sc-mid:#aecb8f; --sc-near:#8fb872;
+  --sc-tree:#6a9a55; --sc-trunk:#7a5a3a; --sc-sun:#f6cb5c; --sc-ray:#e9b23e;
+  --sc-snow:#f9fcf2; --sc-shade:rgba(40,80,40,.16); --sc-cloud:#ffffff;
+  --sc-accent:#e8735a; --sc-flame:#f39a3a; --sc-body:#f2dcb8; --sc-door:#5b3d2a;
+  --sc-sign:#e6cb92; --sc-planet:#b9d8b0; --sc-planet2:#d2e6c6; --sc-glow:#fff1b8;
+  --sc-rocket:#f8fbef; --sc-glass:#bfe3ee; --sc-panel:#9fc0e0; --sc-alien:#bfe8ab;
+  --sc-skyA:#dcecc6; --sc-skyB:var(--card-bg);
+
+  /* SCENE PALETTE — drives the illustration set, the contact glow, card marks and the portrait halo */
+  --scene-ink:#4f6f47; --scene-fill:#f3f8e6; --scene-warm:#e58a3a; --scene-glow:#f2c14e;
+  --hill-1:#d8e7c3; --hill-2:#c7dcab; --hill-3:#b7d093; --scene-shrub:#a9c785;
+  --halo-1:rgba(242,193,78,0.55); --halo-2:rgba(150,200,110,0.40);
+}
+
+[data-theme="dark"] {
+  /* SPACE theme — deep indigo/near-black, not neutral gray */
+  --bg:           #0a0a14;
+  --bg2:          #14132a;
+  --fg:           #eceafc;
+  --fg2:          #a8a4c8;
+  --fg3:          #8e8ab8; /* verified ~6:1 against --bg */
+  --card-bg:      #14132a;
+  --card-border:  #2a2650;
+  --bg-rgb:       10, 10, 20;
+  --nav-bg:       rgba(var(--bg-rgb), 0.92);
+  --shadow:       0 2px 24px rgba(0,0,0,0.5);
+  --shadow-hover: 0 8px 48px rgba(70,50,180,0.35);
+  --shadow-card-hover: 0 18px 34px -14px rgba(0,0,0,0.5);
+  --focus-ring:   rgba(240,237,230,0.07);
+
+  --on-fill:       var(--bg);
+  --on-fill-rgb:   15, 15, 14;
+  --on-fill-body:  rgba(15,15,14,0.7);
+  --on-fill-arrow: rgba(15,15,14,0.6);
+
+  --hero-orb:     rgba(130,120,255,0.12);
+  --hero-glow-a:  rgba(130,120,255,0.16);
+  --hero-glow-b:  rgba(90,140,255,0.13);
+  --star-rgb:     255, 255, 255;
+
+  --sc-line:#a29ed6; --sc-far:#181742; --sc-mid:#211e52; --sc-near:#2b2666;
+  --sc-tree:#2b2666; --sc-trunk:#2b2666; --sc-sun:#8f80ff; --sc-ray:#8f80ff;
+  --sc-snow:#e8e6ff; --sc-shade:rgba(0,0,0,.25); --sc-cloud:#cfcbff;
+  --sc-accent:#ff9f5e; --sc-flame:#ffb35c; --sc-body:#e6e4ff; --sc-door:#151338;
+  --sc-sign:#3b3590; --sc-planet:#3a3386; --sc-planet2:#2c2867; --sc-glow:#6c5cff;
+  --sc-rocket:#e9e7ff; --sc-glass:#74bcff; --sc-panel:#4d66cf; --sc-alien:#7fe2a8;
+  --sc-skyA:#1a1846; --sc-skyB:var(--card-bg);
+
+  --scene-ink:#9a95d4; --scene-fill:#100f26; --scene-warm:#ff9a55; --scene-glow:#ffd98a;
+  --hill-1:#121030; --hill-2:#181640; --hill-3:#1f1c4d; --scene-shrub:#1c1a45;
+  --halo-1:rgba(255,217,138,0.38); --halo-2:rgba(120,100,255,0.50);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* no system scrollbar on any device — the side rail (large screens) and top progress bar (small) show position */
+html, body { scrollbar-width: none; -ms-overflow-style: none; }
+html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; width: 0; height: 0; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--fg);
+  transition: background var(--t) var(--ease), color var(--t) var(--ease);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* The system cursor is only hidden once the custom cursor has actually started following the mouse
+   (CustomCursor.tsx adds .has-custom-cursor on the first mousemove), so a pointer is never left invisible. */
+html.has-custom-cursor body { cursor: none; }
+
+/* Touch devices get normal cursor */
+@media (hover: none) and (pointer: coarse) {
+  body { cursor: auto; }
+  a    { cursor: pointer; }
+}
+
+img { max-width: 100%; display: block; }
+
+/* Section spacing steps down on small screens */
+@media (max-width: 768px) { :root { --section-pad-bottom: 80px; } }
+@media (max-width: 480px) { :root { --section-pad-bottom: 56px; } }
+
+/* Skip link: first tab stop, visible only when focused */
+.skip-link {
+  position: fixed; top: 8px; left: 8px; z-index: 10000;
+  padding: 10px 14px; border-radius: 8px;
+  background: var(--fg); color: var(--bg);
+  font-family: var(--font-mono); font-size: 0.8rem; text-decoration: none;
+  transform: translateY(-200%);
+}
+.skip-link:focus { transform: none; }
+main:focus { outline: none; }

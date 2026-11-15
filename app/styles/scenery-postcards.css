@@ -1,0 +1,52 @@
+/* ── Postcards: illustrated header for About cards ── */
+.card-art {
+  display: block;
+  position: relative;
+  margin: -32px -28px 24px;
+  aspect-ratio: 360 / 100;
+  overflow: hidden;
+  border-radius: var(--radius) var(--radius) 0 0;
+  border-bottom: 1px solid var(--card-border);
+  background: linear-gradient(180deg, var(--sc-skyA) 0%, var(--sc-skyB) 100%);
+  transition: background var(--t);
+}
+.card-art svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.card-art--sky, .card-art--sports, .card-art--hackathons { aspect-ratio: 780 / 150; }   /* every wide section strip is 780 : 150 */
+/* The Catch: the header strip of Ch.01, flush with the top of its section like the Inspiration / Sports strips. Phones
+   crop the sides (xMid slice) so the bubble stays legible; the trainer then walks in from the edge of the frame. */
+.card-art--catch { aspect-ratio: 780 / 150; }
+.card-art--float {
+  margin: 0;
+  background: none;
+  border: 0;
+  overflow: visible;
+  opacity: 0.95;
+  /* soften the postcard's hard side edges so it reads as a vignette */
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 16%, #000 88%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 16%, #000 88%, transparent 100%);
+}
+@media (max-width: 480px) { .card-art { margin: -24px -20px 20px; } }
+
+/* A Family Matter — the Star Wars parody duel (Luke v Vader, Grogu on a rock). It is an OVERLAY inside the Contact section, standing on
+   the section's own lunar ground: absolutely positioned, so it adds no height; no background, border or ground of its own, so there is
+   nothing to seam; sized and laid out by DuelScene from the section's measured free space. Space-only art — in Nature it is not there. */
+.card-art--duel {
+  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;                /* above the section's scene (same layer, later in the DOM), below the content column (z-index 1) */
+  margin: 0;
+  aspect-ratio: auto;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+[data-theme="dark"] .card-art--duel { display: block; }
+/* …and on a ground band (the 404 page's, under <PageScene bandOnly/>): the same duel, laid over the band's own 1440 × 190 box, so it
+   stands on the band's ground at the band's scale. Bubbles are text in a drawing that shrinks with the page, so on phones they go. */
+.card-art--duel-band { height: auto; aspect-ratio: 1440 / 190; }
+@media (max-width: 720px) { .card-art--duel-band .duel-bubble { display: none; } }

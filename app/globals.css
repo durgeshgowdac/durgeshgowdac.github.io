@@ -1,0 +1,43 @@
+/* ═══════════════════════════════════════════════════════════════
+   GLOBAL STYLES — one stylesheet, split by section into app/styles/.
+   ORDER MATTERS: this is a single cascade and later files override earlier ones at equal specificity.
+   Add new rules to the matching section file. Add a new file here only where it should sit in the cascade;
+   overrides.css and responsive.css are deliberately last.
+   Shared tokens (colours, fonts, spacing) live in base.css.
+═══════════════════════════════════════════════════════════════ */
+@import './styles/base.css';
+@import './styles/cursor.css';
+@import './styles/progress-bar.css';
+@import './styles/container.css';
+@import './styles/header.css';
+@import './styles/eyebrow.css';
+@import './styles/hero.css';
+@import './styles/scenery.css';
+@import './styles/scenery-story-marks.css';
+@import './styles/scenery-home.css';
+@import './styles/scenery-postcards.css';
+@import './styles/scenery-about-hero.css';
+@import './styles/scenery-journey-rail.css';
+@import './styles/tech-marquee.css';
+@import './styles/currently-badge.css';
+@import './styles/projects.css';
+@import './styles/device-frame.css';
+@import './styles/contact.css';
+@import './styles/footer.css';
+@import './styles/about.css';
+@import './styles/about-cards.css';
+@import './styles/keyframes.css';
+@import './styles/reduced-motion.css';
+@import './styles/print.css';
+@import './styles/typography.css';
+@import './styles/project-detail.css';
+@import './styles/overrides.css';
+@import './styles/sports-strip.css';
+@import './styles/header-cta.css';
+@import './styles/not-found.css';
+@import './styles/project-detail-glance.css';
+@import './styles/project-detail-jump-bar.css';
+@import './styles/illustration-extras.css';
+@import './styles/speech-bubbles.css';
+@import './styles/project-detail-lower.css';
+@import './styles/responsive.css';

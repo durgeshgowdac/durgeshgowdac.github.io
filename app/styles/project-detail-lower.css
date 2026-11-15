@@ -1,0 +1,107 @@
+/* ═══════════════════════════════════════════════════════════════
+   PROJECT DETAIL — lower sections: vertical rhythm, contact strip, prev/next nav, closing scene
+   • contact strip: roomy padding and a clear gap above it
+   • "← All Projects": its own row on phones, left of the next/prev cards on wide screens, with a large hit area
+   • closing scene: pulled up under the nav so its empty sky doesn't read as a blank band
+═══════════════════════════════════════════════════════════════ */
+/* One vertical rhythm for the whole project page: --proj-gap between the big blocks (sections, contact strip, prev/next nav, footer), --proj-gap-sm inside the intro (hero → results → demo) */
+.proj-page { --proj-gap: 72px; --proj-gap-sm: 56px; padding-bottom: var(--proj-gap); }
+@media (max-width: 900px) { .proj-page { --proj-gap-sm: 40px; } }
+@media (max-width: 768px) { .proj-page { --proj-gap: 56px; } }
+@media (max-width: 480px) { .proj-page { --proj-gap: 40px; --proj-gap-sm: 32px; } }
+.proj-results { margin-top: 0; }
+.proj-demo { margin-top: var(--proj-gap-sm); }
+.proj-body { padding-top: var(--proj-gap); gap: var(--proj-gap); }
+.proj-contact { margin-top: var(--proj-gap); padding: 26px 32px; gap: 16px 32px; }
+.proj-contact-links { gap: 14px; }
+.proj-nav { margin-top: var(--proj-gap); padding-top: var(--proj-gap); padding-bottom: 0; gap: 36px 32px; }
+.proj-nav .proj-back { margin: 0; padding: 14px 6px 14px 0; font-size: 0.8rem; }
+@media (min-width: 901px) {
+  .proj-nav { flex-direction: row; align-items: center; justify-content: space-between; }
+  .proj-nav .proj-back { align-self: center; flex: none; order: -1; }
+  .proj-nav-cards { flex: 1 1 0; max-width: 760px; width: 100%; margin-left: auto; }
+}
+.proj-end { margin-top: calc(-1 * clamp(24px, 7vw, 104px)); }
+/* project page closing strip keeps its size; the UFO may rise out of its top edge (sides and bottom stay cropped) */
+.proj-end--contact, .proj-end--contact .scene { overflow: visible; clip-path: inset(-400px 0 0 0); }
+@media (max-width: 600px) {
+  .proj-contact { padding: 22px 22px; }
+}
+
+/* Waving astronaut: the raised arm swings about the shoulder (bottom-left of its box) */
+.scene-wave { transform-box: fill-box; transform-origin: 0% 100%; animation: sceneWave 1.6s ease-in-out infinite alternate; }
+@keyframes sceneWave { from { transform: rotate(-14deg); } to { transform: rotate(16deg); } }
+@media (prefers-reduced-motion: reduce) { .scene-wave { animation: none; } }
+
+
+/* Astronaut zero-g hover: the suit bobs and tilts slowly above its (static) shadow; the shadow breathes with it */
+.scene-astro-float { transform-box: fill-box; transform-origin: 50% 60%; animation: astroFloat 5.2s ease-in-out infinite; }
+.scene-astro-shadow { transform-box: fill-box; transform-origin: 50% 50%; animation: astroShadow 5.2s ease-in-out infinite; }
+@keyframes astroFloat {
+  0%, 100% { transform: translateY(-2px) rotate(-2.5deg); }
+  50%      { transform: translateY(-6px) rotate(2.5deg); }
+}
+@keyframes astroShadow {
+  0%, 100% { transform: scale(1);    opacity: 0.18; }
+  50%      { transform: scale(0.82); opacity: 0.1; }
+}
+@media (prefers-reduced-motion: reduce) { .scene-astro-float, .scene-astro-shadow { animation: none; } }
+
+/* ── Project footer: one cohesive scene (both themes) ──
+   The footer is exactly as tall as the Contact section above the page (≈ 415–450 px on tablets and desktops; phones get a shorter one). It is ONE drawing: the
+   Ch.02 HackathonScene strip (HackathonScene.tsx) — "Four Elements, One Deadline" in Nature, "Portal Under Pressure" in Space — runs the full width along the
+   bottom and draws its own sky and ground. The headroom above it is just the footer's gradient background, which melts into the page. The page's usual closing band is dropped. */
+.proj-end--match {
+  height: clamp(420px, 31vw, 450px);
+  margin-top: 0;
+  overflow: hidden; clip-path: none;
+  /* the top of the footer melts into the page, so the sky has no hard edge where it begins */
+  background: linear-gradient(180deg, var(--bg) 0%, var(--sc-skyA) 20%, var(--sc-skyB) 100%);
+}
+.proj-end--match::before { display: none; }          /* the CSS starfield: the scene draws its own */
+.proj-match { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; }
+.proj-match .card-art {
+  margin: 0; border: 0; border-radius: 0; background: none; overflow: visible;
+}
+.proj-match .card-art svg { overflow: visible; }
+@media (max-width: 600px) {
+  .proj-end--match { height: clamp(240px, 66vw, 300px); }   /* phones: the strip is only ~75 px tall at this width, so matching the (taller, stacked) Contact block would leave a big empty sky */
+}
+/* ═══════════════════════════════════════════════════════════════
+   "Like this work? Let's talk." — same look as the home Contact section
+   • icons: the paper circle + ink outline + soft warm halo ring from .social-links, inverting on hover
+   • card: the same lift + border + shadow highlight the next/prev project cards get
+═══════════════════════════════════════════════════════════════ */
+.proj-contact {
+  transition: border-color var(--t) var(--ease), transform var(--t) var(--ease), box-shadow var(--t) var(--ease);
+}
+.proj-contact:hover,
+.proj-contact:focus-within {
+  border-color: var(--fg3);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+.proj-contact .proj-contact-links { gap: 20px; padding-right: 5px; }   /* room for each halo ring */
+.proj-contact .proj-contact-link {
+  width: 46px; height: 46px; font-size: 1.05rem;
+  background: var(--scene-fill);
+  border: 1.5px solid var(--scene-ink);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.14), 0 0 0 5px color-mix(in srgb, var(--scene-glow) 20%, transparent);
+  transition: background var(--t) var(--ease), color var(--t) var(--ease), border-color var(--t) var(--ease),
+  transform var(--t) var(--ease), box-shadow var(--t) var(--ease);
+}
+.proj-contact .proj-contact-link:hover,
+.proj-contact .proj-contact-link:focus-visible {
+  background: var(--fg); color: var(--bg); border-color: var(--fg);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover), 0 0 0 7px color-mix(in srgb, var(--scene-glow) 30%, transparent);
+}
+.proj-contact .proj-contact-link:focus-visible { outline: 2px solid var(--fg); outline-offset: 9px; }
+@media (prefers-reduced-motion: reduce) {
+  .proj-contact, .proj-contact .proj-contact-link { transition: none; }
+  .proj-contact:hover, .proj-contact:focus-within, .proj-contact .proj-contact-link:hover { transform: none; }
+}
+@media (max-width: 480px) {
+  .proj-contact .proj-contact-links { gap: 16px; }
+  .proj-contact .proj-contact-link { width: 44px; height: 44px; }
+}

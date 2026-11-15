@@ -1,0 +1,59 @@
+/* ═══════════════════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════════════════ */
+footer {
+  padding: 28px 0;
+  border-top: 1px solid var(--card-border);
+}
+.footer-inner {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+footer p {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--fg3);
+  letter-spacing: 0.05em;
+}
+.footer-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+}
+@media (max-width: 600px) {
+  /* space-between looks stretched once the line wraps to two rows on
+     small screens — fall back to a tight, left-aligned wrap there */
+  .footer-line { justify-content: flex-start; }
+}
+
+/* ── Footer quote — a small chapter-close moment above the legal line ── */
+.footer-quote {
+  text-align: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(0.95rem, 2vw, 1.2rem);
+  color: var(--fg2);
+  max-width: 560px;
+  margin: 0 auto 24px;
+  line-height: 1.5;
+}
+.footer-quote cite {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg3);
+}
+.footer-sep { color: var(--card-border); }
+.copyright-symbol { font-size: 15px; color: var(--fg3); }
+@media (max-width: 480px) {
+  footer p { font-size: 0.75rem; }
+  .footer-sep { display: none; }
+}

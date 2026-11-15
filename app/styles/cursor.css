@@ -1,0 +1,42 @@
+/* ═══════════════════════════════════════════════════════════════
+   CUSTOM CURSOR — hidden on touch screens
+═══════════════════════════════════════════════════════════════ */
+.cursor-dot, .cursor-ring {
+  position: fixed;
+  left: 0; top: 0;             /* JS positions both with transform only (see CustomCursor.tsx) */
+  transform: translate3d(-100px, -100px, 0);   /* parked off-screen until the first mousemove */
+  pointer-events: none;
+  z-index: 9999;
+  will-change: transform;
+}
+.cursor-dot {
+  width: 7px; height: 7px;
+  background: var(--fg);
+  border-radius: 50%;
+  transition: width 0.2s var(--ease), height 0.2s var(--ease);
+}
+.cursor-ring {
+  width: 34px; height: 34px;
+  border: 1.5px solid var(--fg);
+  border-radius: 50%;
+  opacity: 0.45;
+  transition: width 0.25s var(--ease), height 0.25s var(--ease), opacity 0.25s;
+}
+body.cursor-hover .cursor-dot  { width: 11px; height: 11px; }
+body.cursor-hover .cursor-ring:not(.is-snapped) { width: 52px; height: 52px; opacity: 0.7; }
+
+/* Reactive mode: instead of just growing, the ring snaps into a rounded
+   rect around the actual hovered element (project card or a contact icon)
+   rather than staying a uniform circle. Position/size are re-measured every
+   animation frame in JS (see CustomCursor.tsx), so no CSS transition on
+   left/top/width/height here — that would just re-introduce lag behind the
+   card's own hover transform instead of tracking it live. */
+.cursor-ring.is-snapped {
+  opacity: 0.55;
+  transition: opacity 0.25s;
+}
+body.cursor-hover .cursor-dot { opacity: 0; }
+
+@media (hover: none) and (pointer: coarse) {
+  .cursor-dot, .cursor-ring { display: none !important; }
+}

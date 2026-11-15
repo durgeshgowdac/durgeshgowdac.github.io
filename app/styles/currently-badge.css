@@ -1,0 +1,111 @@
+/* ═══════════════════════════════════════════════════════════════
+   CURRENTLY BADGE — a small rotating personality moment in the hero.
+═══════════════════════════════════════════════════════════════ */
+.currently-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 7px 14px;
+  border: 1px solid var(--fg3);   /* the cards' highlight colour, always on — no hover state */
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--fg3);
+  opacity: 0;
+  animation: fadeUp 0.9s var(--ease) 0.48s forwards;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 18px;
+  opacity: 0;
+  animation: fadeUp 0.9s var(--ease) 0.56s forwards;
+}
+.btn-resume {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: var(--fg);
+  color: var(--bg);
+  border: 1px solid var(--fg);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  transition: all var(--t) var(--ease);
+}
+.btn-resume:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+.btn-resume svg { flex-shrink: 0; }
+
+/* fixed badge shape: all phrases share one grid cell, so the badge keeps the size of the longest one while the text changes */
+.currently-slot { display: inline-grid; vertical-align: top; text-align: left; }
+.currently-item { grid-area: 1 / 1; visibility: hidden; }
+.currently-item.is-active { visibility: visible; }
+
+/* hero buttons: "See projects" is the primary; "Download Resume" is the quiet outline beside it */
+.hero-actions { flex-wrap: wrap; }
+@media (max-width: 480px) {
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-actions .btn-resume { justify-content: center; }
+}
+
+/* hero links (the four project names, PES University): dotted underline, solid on hover/focus.
+   The project pages use the same links inside their copy. */
+.hero a.hero-link,
+.about-hero a.hero-link,
+.proj-page a.hero-link {
+  color: var(--fg);
+  border-bottom: 0;
+  padding-bottom: 0;
+  text-decoration: underline dotted;
+  text-decoration-color: var(--fg3);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  transition: text-decoration-color var(--t);
+}
+.career-column a.hero-link { white-space: nowrap; }
+.hero a.hero-link:hover,
+.about-hero a.hero-link:hover,
+.proj-page a.hero-link:hover { text-decoration-style: solid; text-decoration-color: var(--fg); }
+.hero a.hero-link:focus-visible,
+.about-hero a.hero-link:focus-visible,
+.proj-page a.hero-link:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; border-radius: 3px; }
+
+/* the mode line under the Projects heading: .t-nature / .t-space are switched by the theme (scenery-story-marks.css) */
+.projects-aside {
+  margin: 8px 0 20px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: var(--fg2);
+}
+/* …as the sign-off under the last project: centred, with room above and a little below */
+.projects-aside--end {
+  margin: 40px auto 0;
+  text-align: center;
+  text-wrap: balance;
+  max-width: 44rem;
+}
+
+/* Based in / Status sit closer together, and Status wraps before it reaches the scenery on the right */
+.hero .other-info { column-gap: clamp(20px, 3vw, 32px); }
+@media (min-width: 601px) {
+  .hero .other-info .career-info:first-child { flex: 0 0 auto; width: 15rem; }
+  .hero .other-info .career-info:last-child  { flex: 0 1 21rem; }
+}
+
+/* About hero: emphasised words read in full ink against the softer body copy, like the home hero's key terms.
+   The project pages carry the same emphasis in their lead, prose, lists and cards. */
+.about-hero p strong,
+.proj-desc strong,
+.proj-prose strong,
+.proj-list strong,
+.proj-card-desc strong { color: var(--fg); font-weight: 600; }

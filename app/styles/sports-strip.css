@@ -1,0 +1,147 @@
+/* ═══════════════════════════════════════════════════════════════
+   SPORTS STRIP — a match in progress
+═══════════════════════════════════════════════════════════════ */
+.card-art .scene-sway { transform-box: fill-box; }
+.scene-sway--b { animation-delay: -1.6s; }
+
+/* volleyball: x travels between the players and back; y rises/falls on a gravity curve; one shared period.
+   --vb-dx (distance between contact points) and --vb-peak (arc height) are set per world in AboutStripScene.tsx. */
+.sp-ball-x    { animation: spBallX 2.4s linear infinite alternate; }
+.sp-ball-y    { animation: spBallY 2.4s infinite; }
+.sp-ball-spin { transform-box: fill-box; transform-origin: center; animation: sceneSpin 1.8s linear infinite; }
+.sp-shadow    { transform-box: fill-box; transform-origin: center; animation: spShadow 2.4s infinite; }
+.sp-ball--space.sp-ball-x { animation-duration: 3.9s; }
+.sp-ball--space.sp-ball-y { animation-duration: 3.9s; animation-name: spBallYMoon; }
+.sp-ball--space.sp-ball-spin { animation-duration: 7s; }
+.sp-ball--space.sp-shadow { animation-duration: 3.9s; }
+@keyframes spBallX { from { transform: translateX(0); } to { transform: translateX(var(--vb-dx, 134px)); } }
+@keyframes spBallY {
+  0%   { transform: translateY(0);     animation-timing-function: cubic-bezier(.22,.65,.4,1); }
+  50%  { transform: translateY(calc(var(--vb-peak, 24px) * -1)); animation-timing-function: cubic-bezier(.6,0,.78,.35); }
+  100% { transform: translateY(0); }
+}
+@keyframes spBallYMoon {
+  0%   { transform: translateY(0);     animation-timing-function: cubic-bezier(.3,.7,.45,1); }
+  50%  { transform: translateY(calc(var(--vb-peak, 30px) * -1)); animation-timing-function: cubic-bezier(.55,0,.7,.3); }
+  100% { transform: translateY(0); }
+}
+@keyframes spShadow { 0%, 100% { transform: scale(1); opacity: .4; } 50% { transform: scale(.5); opacity: .15; } }
+
+/* the players. One loop = one full rally (ball out and back): the left player meets the ball at 0%, the right
+   player at 50% (.sp-vb--r runs half a cycle behind). Per player:
+     0–12%   jump + hit, then fall back to the ground
+     12–42%  drop back from the net while the ball is on the other side
+     42–58%  hold, watching it
+     58–90%  step forward under the incoming ball, leaning in
+     82–100% crouch-and-spring into the next jump
+   Space runs the same loop slower (ball half-cycle 3.9s) with bigger hops (low gravity). */
+.sp-vb       { --vb-t: 4.8s; --vb-hop: 9px;  --vb-fwd: 8px; --vb-back: 12px; }
+.sp-vb--space { --vb-t: 7.8s; --vb-hop: 18px; --vb-fwd: 7px; --vb-back: 10px; }
+.sp-vb-hop  { animation: spVbHop var(--vb-t) infinite; }
+.sp-vb-step { transform-box: fill-box; transform-origin: 50% 100%; animation: spVbStep var(--vb-t) ease-in-out infinite; }
+.sp-vb--r .sp-vb-hop, .sp-vb--r .sp-vb-step, .sp-vb--r .sp-arm, .sp-vb--r .sp-antenna { animation-delay: calc(var(--vb-t) * -0.5); }
+@keyframes spVbHop {
+  0%   { transform: translateY(calc(var(--vb-hop) * -1)); animation-timing-function: cubic-bezier(.5,0,1,.7); }
+  12%  { transform: translateY(0); }
+  82%  { transform: translateY(0); animation-timing-function: cubic-bezier(0,.5,.4,1); }
+  100% { transform: translateY(calc(var(--vb-hop) * -1)); }
+}
+@keyframes spVbStep {
+  0%, 10%   { transform: translateX(calc(var(--vb-dir) * var(--vb-fwd))) rotate(calc(var(--vb-dir) * 4deg)); }
+  42%, 58%  { transform: translateX(calc(var(--vb-dir) * var(--vb-back) * -1)) rotate(calc(var(--vb-dir) * -2deg)); }
+  90%, 100% { transform: translateX(calc(var(--vb-dir) * var(--vb-fwd))) rotate(calc(var(--vb-dir) * 4deg)); }
+}
+/* space only: arms swing up for the hit (--arm-up is set per arm), and the alien's antenna boings */
+.sp-arm   { transform-box: fill-box; animation: spVbArm var(--vb-t) ease-in-out infinite; }
+.sp-arm--a { transform-origin: 100% 0%; }
+.sp-arm--b { transform-origin: 0% 0%; }
+@keyframes spVbArm {
+  0%, 4%    { transform: rotate(var(--arm-up)); }
+  18%, 78%  { transform: rotate(0deg); }
+  96%, 100% { transform: rotate(var(--arm-up)); }
+}
+.sp-antenna { transform-box: fill-box; transform-origin: 50% 100%; animation: spAntenna var(--vb-t) ease-out infinite; }
+@keyframes spAntenna {
+  0%   { transform: rotate(-16deg); }
+  8%   { transform: rotate(12deg); }
+  16%  { transform: rotate(-6deg); }
+  24%, 82% { transform: rotate(0deg); }
+  100% { transform: rotate(-16deg); }
+}
+
+/* the fox follows the rally with its head; the tail wags */
+.sp-tail { transform-box: fill-box; transform-origin: 100% 100%; animation: spTail 2.2s ease-in-out infinite alternate; }
+.sp-head { transform-box: fill-box; transform-origin: 40% 100%; animation: spHead 4.8s ease-in-out infinite; }
+@keyframes spTail { from { transform: rotate(-5deg); } to { transform: rotate(9deg); } }
+@keyframes spHead { 0%, 100% { transform: rotate(-9deg); } 50% { transform: rotate(4deg); } }   /* nose up at the hit, level while the ball is away */
+
+/* Taekwondo: one loop = chamber → front kick through the board → the halves fly apart → a new board fades in.
+   Every limb swings about its own joint (each is wrapped in a group translated to the joint, so the default
+   transform-origin of 0 0 *is* the joint). Space runs the same loop slower, with a bigger hop. */
+.tk        { --tk-t: 5.2s; --tk-hop: 5px; }
+.tk--space { --tk-t: 8.4s; --tk-hop: 13px; }
+.tk-hop   { animation: tkHop   var(--tk-t) infinite; }
+.tk-lean  { animation: tkLean  var(--tk-t) ease-in-out infinite; }
+.tk-thigh { animation: tkThigh var(--tk-t) ease-in-out infinite; }
+.tk-shin  { animation: tkShin  var(--tk-t) infinite; }
+.tk-arm--f { animation: tkArmF var(--tk-t) ease-in-out infinite; }
+.tk-arm--r { animation: tkArmR var(--tk-t) ease-in-out infinite; }
+.tk-piece { transform-box: fill-box; transform-origin: center; }
+.tk-piece--top { animation: tkTop var(--tk-t) infinite; }
+.tk-piece--bot { animation: tkBot var(--tk-t) infinite; }
+.tk-burst { transform-box: fill-box; transform-origin: 0% 50%; opacity: 0; animation: tkBurst var(--tk-t) ease-out infinite; }
+@keyframes tkHop {
+  0%, 30% { transform: translateY(0); }
+  40%, 50% { transform: translateY(calc(var(--tk-hop) * -1)); }
+  64%, 100% { transform: translateY(0); }
+}
+@keyframes tkLean { 0%, 28% { transform: rotate(0); } 40%, 52% { transform: rotate(-9deg); } 68%, 100% { transform: rotate(0); } }
+@keyframes tkThigh {
+  0%, 20% { transform: rotate(0); }
+  32% { transform: rotate(-80deg); }
+  40%, 50% { transform: rotate(-92deg); }
+  58% { transform: rotate(-80deg); }
+  72%, 100% { transform: rotate(0); }
+}
+@keyframes tkShin {
+  0%, 20% { transform: rotate(0); animation-timing-function: ease-in-out; }
+  32% { transform: rotate(100deg); animation-timing-function: cubic-bezier(.1,.8,.25,1); }   /* the snap */
+  40%, 50% { transform: rotate(0); animation-timing-function: ease-in-out; }
+  58% { transform: rotate(95deg); }
+  72%, 100% { transform: rotate(0); }
+}
+@keyframes tkArmF { 0%, 24% { transform: rotate(0); } 40%, 50% { transform: rotate(42deg); } 68%, 100% { transform: rotate(0); } }
+@keyframes tkArmR { 0%, 24% { transform: rotate(0); } 40%, 50% { transform: rotate(-38deg); } 68%, 100% { transform: rotate(0); } }
+/* the board: intact until the foot lands (40%), halves fly out and fall, then a fresh one fades in at the end */
+@keyframes tkTop {
+  0%, 40%  { transform: none; opacity: 1; animation-timing-function: ease-out; }
+  56%      { transform: translate(14px, -14px) rotate(32deg); opacity: 1; animation-timing-function: ease-in; }
+  76%      { transform: translate(30px, 24px) rotate(120deg); opacity: .9; }
+  82%      { transform: translate(32px, 26px) rotate(130deg); opacity: 0; }
+  83%, 91% { transform: none; opacity: 0; }
+  99%, 100% { transform: none; opacity: 1; }
+}
+@keyframes tkBot {
+  0%, 40%  { transform: none; opacity: 1; animation-timing-function: ease-out; }
+  56%      { transform: translate(12px, 3px) rotate(-26deg); opacity: 1; animation-timing-function: ease-in; }
+  76%      { transform: translate(26px, 12px) rotate(-92deg); opacity: .9; }
+  82%      { transform: translate(28px, 13px) rotate(-98deg); opacity: 0; }
+  83%, 91% { transform: none; opacity: 0; }
+  99%, 100% { transform: none; opacity: 1; }
+}
+@keyframes tkBurst { 0%, 39% { opacity: 0; transform: scale(.5); } 42% { opacity: 1; transform: scale(.9); } 54%, 100% { opacity: 0; transform: scale(1.5); } }
+
+/* zero-g: things drift and tumble */
+.sp-float  { transform-box: fill-box; transform-origin: center; animation: spFloat 7s ease-in-out infinite; }
+.sp-float--b { animation-duration: 9s; animation-delay: -3s; }
+.sp-tumble { transform-box: fill-box; transform-origin: center; animation: sceneSpin 24s linear infinite; }
+.sp-tumble--slow { animation-duration: 60s; animation-direction: reverse; }
+@keyframes spFloat { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(5px, -6px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .sp-ball-x, .sp-ball-y, .sp-ball-spin, .sp-shadow, .sp-tail, .sp-head,
+  .sp-float, .sp-tumble, .sp-vb-hop, .sp-vb-step, .sp-arm, .sp-antenna,
+  .tk-hop, .tk-lean, .tk-thigh, .tk-shin, .tk-arm--f, .tk-arm--r, .tk-piece--top, .tk-piece--bot, .tk-burst { animation: none !important; }
+  .sp-ball-x { transform: translateX(calc(var(--vb-dx, 134px) / 2)); }      /* freeze the ball above the net */
+  .sp-ball-y { transform: translateY(calc(var(--vb-peak, 24px) * -1)); }
+}

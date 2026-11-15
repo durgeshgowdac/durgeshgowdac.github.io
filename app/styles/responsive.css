@@ -1,0 +1,42 @@
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE POLISH
+   • hero name wraps evenly (no lone "C" on its own line on phones)
+   • touch devices: text links get a comfortable (≥44px) hit area without changing how they look
+═══════════════════════════════════════════════════════════════ */
+.hero h1, .projects-section h2 { text-wrap: balance; }
+@media (pointer: coarse) {
+  .logo-link, .proj-link, .proj-back, .nf-link, .proj-receipts-link {
+    position: relative;
+  }
+  .logo-link::before, .proj-link::before, .proj-back::before, .nf-link::before, .proj-receipts-link::before {
+    content: '';
+    position: absolute;
+    left: -6px; right: -6px;
+    top: 50%; height: max(100%, 44px);
+    transform: translateY(-50%);
+  }
+}
+
+/* About + the hero's focal art */
+@media (min-width: 901px) {
+  .about-hero-wrap { min-height: calc(48.7vw + 520px); }
+  .scene--about > .scene-focal {
+    -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 24%);
+    mask-image: linear-gradient(180deg, transparent 0, #000 24%);
+  }
+}
+@media (min-width: 901px) and (max-width: 1180px) {
+  .scene--about > .scene-focal { opacity: 0.45; }
+}
+
+/* ── Avatar set (scenery/illustrations/): Appa's paddle tail swishes about its root, Momo's wings beat about the shoulders.
+      Both are opt-in (`swish` / `flap` props) and switched off for reduced motion. The right wing is the mirrored left
+      one, so the same keyframes drive both. ── */
+.scene-swish { transform-box: fill-box; transform-origin: 100% 50%; animation: sceneSwish 3.6s var(--scene-ease) infinite alternate; }
+.scene-flap  { transform-box: fill-box; transform-origin: 100% 100%; animation: sceneFlap 0.5s ease-in-out infinite alternate; }
+@keyframes sceneSwish { from { transform: rotate(-8deg); } to { transform: rotate(9deg); } }
+@keyframes sceneFlap  { from { transform: rotate(18deg); } to { transform: rotate(-40deg); } }
+@media (prefers-reduced-motion: reduce) { .scene-swish, .scene-flap { animation: none !important; } }
+
+/* Avatar scenes: one line weight for every character whatever its scale (stroke widths are screen pixels). */
+.fx-uniform *, .fx-uniform { vector-effect: non-scaling-stroke; }

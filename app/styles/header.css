@@ -1,0 +1,167 @@
+/* ═══════════════════════════════════════════════════════════════
+   HEADER / NAV
+═══════════════════════════════════════════════════════════════ */
+header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5%;
+  background: var(--nav-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--card-border);
+  transition: background var(--t), border-color var(--t), box-shadow var(--t);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.logo a {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--fg);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  transition: opacity var(--t);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.logo a:hover { opacity: 0.55; }
+.logo-mark {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  border-radius: 6px;
+}
+@media (max-width: 380px) {
+  .logo-mark { width: 20px; height: 20px; }
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 0;
+  align-items: center;
+}
+
+nav a {
+  display: flex;
+  align-items: center;
+  padding: 8px 18px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg2);
+  text-decoration: none;
+  position: relative;
+  white-space: nowrap;
+  transition: color var(--t);
+  /* Accessible tap target */
+  min-height: 44px;
+}
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: 6px; left: 18px;
+  width: calc(100% - 36px);
+  height: 1px;
+  background: var(--fg);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--t) var(--ease);
+}
+nav a:hover, nav a.active { color: var(--fg); }
+nav a:hover::after, nav a.active::after { transform: scaleX(1); }
+/* …that underline belongs to the header links only; the jump chips and the progress rail are navs too and must not inherit it */
+.proj-jump a::after, .journey-rail a::after { content: none; }
+
+/* Theme toggle — tree (light / nature) crossfades to UFO (dark / space) */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 42px; height: 23px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+  position: absolute; inset: 0;
+  background: #cfe0cf;
+  border-radius: 23px;
+  transition: background var(--t);
+  overflow: hidden;
+}
+[data-theme="dark"] .slider { background: #1c2340; }
+.slider-icon {
+  position: absolute;
+  width: 17px; height: 17px;
+  left: 3px; bottom: 3px;
+  background: var(--card-bg);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4a7c4a;
+  box-shadow: var(--shadow);
+  transition: transform var(--t) var(--ease), opacity var(--t) var(--ease), color var(--t);
+}
+.slider-icon--ufo {
+  opacity: 0;
+  color: #b9c4ff;
+  transform: translateX(-6px) scale(0.7);
+}
+[data-theme="dark"] .slider .slider-icon--tree {
+  transform: translateX(19px) scale(0.7);
+  opacity: 0;
+}
+[data-theme="dark"] .slider .slider-icon--ufo {
+  transform: translateX(19px) scale(1);
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .slider-icon { transition: opacity var(--t); }
+}
+
+/* Phones — compact the header in steps so "ABOUT" never runs off the screen.
+   The first step starts above 393px so it covers 390–393px devices. */
+@media (max-width: 480px) {
+  header { padding: 0 14px; }
+  .logo-container { gap: 10px; }
+  .logo a { font-size: 1.08rem; gap: 7px; }
+  .logo-mark { width: 22px; height: 22px; }
+  nav a   { padding: 8px 9px; font-size: 0.75rem; letter-spacing: 0.07em; }
+  nav a::after { left: 9px; width: calc(100% - 18px); }
+}
+@media (max-width: 380px) {
+  header { padding: 0 12px; }
+  .logo-container { gap: 8px; }
+  .logo a { font-size: 1rem; gap: 6px; }
+  .logo-mark { width: 20px; height: 20px; }
+  nav a   { padding: 8px 8px; font-size: 0.7rem; letter-spacing: 0.05em; }
+  nav a::after { left: 8px; width: calc(100% - 16px); }
+}
+@media (max-width: 340px) {
+  header { padding: 0 10px; }
+  .logo a { font-size: 0.9rem; }
+  nav a   { padding: 8px 6px; font-size: 0.75rem; letter-spacing: 0.03em; }
+  nav a::after { left: 6px; width: calc(100% - 12px); }
+}

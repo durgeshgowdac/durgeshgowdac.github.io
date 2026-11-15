@@ -1,0 +1,168 @@
+/* ═══════════════════════════════════════════════════════════════
+   SCENERY — the Nature ↔ Space backdrop and every illustration
+   that hangs off it (hero, bands, postcards, story marks, rail).
+   Tokens (--sc-*) live in :root / [data-theme="dark"] above.
+═══════════════════════════════════════════════════════════════ */
+.scene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  color: var(--sc-line);
+  container-type: inline-size;   /* lets the hero size its band + focal in the same unit (cqw), so their ground lines up */
+}
+.scene > svg { position: absolute; display: block; }
+.scene-sky   { inset: 0; width: 100%; height: 100%; }
+/* Band height tracks width (190/1440 ≈ 13.2vw; tall 230/1440 ≈ 16vw) with a high cap, so `slice` always scales the art
+   by its aspect ratio and never crops the tops of the right-hand trees on wide screens. */
+.scene-band  { left: 0; bottom: 0; width: 100%; height: auto; aspect-ratio: 1440 / 190; overflow: visible; }   /* visible: the UFO flies up out of the band into the sky */
+/* Hero: band (viewBox 1440×190) and focal (640×700) are both sized from the section width — 190/1440 and
+   640/1440 of it — so every unit of the one shared ground is the same size in both. The band is never shorter than
+   its aspect needs, so `slice` can't crop the top of the ridge (which would cut the ground flat on wide
+   screens). On phones the band bottoms out at 88px and `slice` trims the sides instead. */
+.scene--hero .scene-band { height: auto; aspect-ratio: 1440 / 190; }
+.scene-band--tall { height: auto; aspect-ratio: 1440 / 230; }
+.scene-focal {
+  right: 0; bottom: 0;
+  width: 44.444cqw;             /* 640/1440 of the section — see the band note above */
+  height: auto;
+  aspect-ratio: 640 / 700;
+  /* no edge feather: the focal redraws the same ground as the band, so there is no seam to hide */
+}
+/* Stars / clouds / birds are dimmed behind the text column, bright where it's empty */
+.scene--hero .scene-sky    { -webkit-mask-image: linear-gradient(90deg, rgba(0,0,0,.5) 0, rgba(0,0,0,.5) 46%, #000 76%); mask-image: linear-gradient(90deg, rgba(0,0,0,.5) 0, rgba(0,0,0,.5) 46%, #000 76%); }
+.scene-topsky {
+  /* About + Project: a 170px sky band just under the sticky header */
+  top: var(--header-h); left: 0; width: 100%; height: auto; aspect-ratio: 1440 / 170;
+}
+.scene--project .scene-topsky { top: 0; }   /* the project chapter already starts below the header */
+@media (max-width: 900px) { .scene > .scene-topsky { display: none; } }
+.scene--contact .scene-sky { -webkit-mask-image: radial-gradient(ellipse 40% 75% at 50% 42%, rgba(0,0,0,.18), #000 100%); mask-image: radial-gradient(ellipse 40% 75% at 50% 42%, rgba(0,0,0,.18), #000 100%); }
+
+@media (max-width: 900px) { .scene > .scene-focal { display: none; } }  /* (.scene > svg sets display:block, so match its specificity) */
+
+/* Theme crossfade: both worlds stay in the DOM, but the hidden one is visibility:hidden
+   (after the fade) and its CSS animations are paused, so only one world costs frames. */
+.scene-nature, .scene-space { transition: opacity 0.6s var(--ease), visibility 0s linear 0.6s; }
+.scene-nature { opacity: 1; visibility: visible; transition-delay: 0s; }
+.scene-space  { opacity: 0; visibility: hidden; }
+[data-theme="dark"] .scene-nature { opacity: 0; visibility: hidden; transition-delay: 0s, 0.6s; }
+[data-theme="dark"] .scene-space  { opacity: 1; visibility: visible; transition-delay: 0s; }
+.scene-space, .scene-space * { animation-play-state: paused; }
+[data-theme="dark"] .scene-space, [data-theme="dark"] .scene-space * { animation-play-state: running; }
+[data-theme="dark"] .scene-nature, [data-theme="dark"] .scene-nature * { animation-play-state: paused; }
+
+/* Palette hooks — SVG parts pick their colour by class, tokens do the theming */
+.sc-far    { fill: var(--sc-far); }
+.sc-mid    { fill: var(--sc-mid); }
+.sc-near   { fill: var(--sc-near); }
+.sc-tree   { fill: var(--sc-tree); }
+.sc-trunk  { fill: var(--sc-trunk); }
+.sc-sun    { fill: var(--sc-sun); }
+.sc-snow   { fill: var(--sc-snow); }
+.sc-shade  { fill: var(--sc-shade); }
+.sc-cloud  { fill: var(--sc-cloud); }
+.sc-accent { fill: var(--sc-accent); }
+.sc-body { fill: var(--sc-body); }
+.sc-door   { fill: var(--sc-door); }
+.sc-sign   { fill: var(--sc-sign); }
+.sc-planet2 { fill: var(--sc-planet2); }
+.sc-glow   { fill: var(--sc-glow); }
+.sc-rocket { fill: var(--sc-rocket); }
+.sc-glass  { fill: var(--sc-glass); }
+.sc-panel  { fill: var(--sc-panel); }
+.sc-alien  { fill: var(--sc-alien); }
+.scene svg [class*="sc-"], .card-art svg [class*="sc-"] { transition: fill 0.6s var(--ease), stroke 0.6s var(--ease); }
+
+/* Motion — everything idle, slow, and off for reduced motion. */
+.scene-sway, .scene-fly, .scene-drift, .scene-comet, .scene-hover, .scene-spin,
+.scene-butterfly, .scene-wing, .scene-flicker, .scene-twinkle, .scene-smoke, .scene-signal,
+.scene-walk, .scene-bob, .scene-step, .scene-step2 {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.scene-sway   { animation: sceneSway 4s var(--scene-ease) infinite; transform-origin: 50% 100%; }
+.scene-fly    { animation: sceneFly 6s var(--scene-ease) infinite alternate; }
+.scene-drift  { animation: sceneDrift 9s var(--scene-ease) infinite; }
+.scene-comet  { animation: sceneComet 3.4s ease-in-out infinite; }
+.scene-hover  { animation: sceneHover 4s var(--scene-ease) infinite; }
+.scene-spin   { animation: sceneSpin 90s linear infinite; }
+.scene-butterfly--a { animation: sceneButterflyA 17s var(--scene-ease) infinite; }
+.scene-butterfly--b { animation: sceneButterflyB 21s var(--scene-ease) infinite; }
+.scene-butterfly--c { animation: sceneButterflyC 14s var(--scene-ease) infinite; }
+/* wings: hinge on the body (left wing pivots on its right edge, right wing on its left edge) */
+.scene-wing { animation: sceneWing 0.62s var(--scene-ease) infinite alternate; }
+.scene-wing--l { transform-origin: 100% 55%; }
+.scene-wing--r { transform-origin: 0% 55%; }
+.scene-flicker{ animation: sceneFlicker 0.9s ease-in-out infinite alternate; transform-origin: 50% 100%; }
+.scene-twinkle{ animation: sceneTwinkle 3.2s ease-in-out infinite; }
+.scene-lamp   { animation: sceneLamp 2.6s ease-in-out infinite; }
+.scene-smoke  { animation: sceneSmoke 5s ease-in-out infinite; }
+.scene-signal { animation: sceneSignal 2.4s ease-in-out infinite; }
+.scene-walk   { animation: sceneWalk 30s linear infinite; }
+.scene-walk--about { animation-name: sceneWalkAbout; animation-duration: 42s; }
+.scene-bob    { animation: sceneBob 0.7s ease-in-out infinite; }
+.scene-step   { animation: sceneStep 0.7s ease-in-out infinite alternate; transform-origin: 50% 0; }
+.scene-step2  { animation: sceneStep 0.7s ease-in-out infinite alternate-reverse; transform-origin: 50% 0; }
+
+.scene-cloud  { animation: sceneCloud 24s var(--scene-ease) infinite alternate; }
+.scene-cloud--b { animation-duration: 32s; animation-delay: -9s; }
+/* THE ribbon: every dotted path in the scenery (hero trail + trajectory, the Projects strip, the About halo)
+   shares this one finish — round dots, same pitch, same march. The dash period (0.1 + 9 = 9.1) is also the
+   distance the keyframe travels, so the loop never hiccups at the seam. */
+.scene-ribbon { fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-dasharray: 0.1 9; animation: sceneRibbon 3.2s linear infinite; }
+.scene-wave   { transform-box: fill-box; transform-origin: 0% 50%; animation: sceneWave 2.2s ease-in-out infinite; }
+.scene-ping   { opacity: 0; animation: scenePing 2.2s ease-out infinite; }
+
+@keyframes sceneSway   { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(2.5deg); } }
+@keyframes sceneFly    { 0%, 100% { transform: translate(0,0); } 50% { transform: translate(26px,-9px); } }
+@keyframes sceneDrift  { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-7px) rotate(1.5deg); } }
+@keyframes sceneComet  { 0%, 100% { transform: translate(0,0); opacity: 0.6; } 50% { transform: translate(-14px,14px); opacity: 1; } }
+@keyframes sceneHover  { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes sceneSpin   { to { transform: rotate(360deg); } }
+@keyframes sceneWing   { from { transform: scaleX(1); } to { transform: scaleX(0.28); } }
+/* Closed loops: each starts and ends at the same pose, banks into its turns (rotate) and rises/falls as it goes. */
+@keyframes sceneButterflyA {
+  0%, 100% { transform: translate(0, 0) rotate(-8deg); }
+  18% { transform: translate(24px, -16px) rotate(10deg); }
+  40% { transform: translate(54px, -6px) rotate(-6deg); }
+  62% { transform: translate(40px, 14px) rotate(12deg); }
+  82% { transform: translate(12px, 8px) rotate(-10deg); }
+}
+@keyframes sceneButterflyB {
+  0%, 100% { transform: translate(0, 0) rotate(6deg); }
+  25% { transform: translate(-20px, -14px) rotate(-12deg); }
+  50% { transform: translate(-46px, 2px) rotate(8deg); }
+  75% { transform: translate(-22px, 12px) rotate(-6deg); }
+}
+@keyframes sceneButterflyC {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  30% { transform: translate(16px, -20px) rotate(14deg); }
+  55% { transform: translate(34px, -4px) rotate(-8deg); }
+  80% { transform: translate(10px, 10px) rotate(6deg); }
+}
+@keyframes sceneFlicker{ from { transform: scale(1,1); opacity: 0.85; } to { transform: scale(0.92,1.12); opacity: 1; } }
+@keyframes sceneLamp   { 0%, 100% { opacity: 1; } 22% { opacity: 0.8; } 41% { opacity: 0.96; } 63% { opacity: 0.76; } 82% { opacity: 0.92; } }
+@keyframes sceneTwinkle{ 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+@keyframes sceneSmoke  { 0% { transform: translateY(0); opacity: 0; } 30% { opacity: 0.7; } 100% { transform: translateY(-12px); opacity: 0; } }
+@keyframes sceneSignal { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
+@keyframes sceneWalk   { 0% { transform: translateX(0); opacity: 0; } 8% { opacity: 1; } 92% { opacity: 1; } 100% { transform: translateX(300px); opacity: 0; } }
+@keyframes sceneWalkAbout { 0% { transform: translateX(0); opacity: 0; } 8% { opacity: 1; } 92% { opacity: 1; } 100% { transform: translateX(400px); opacity: 0; } }
+@keyframes sceneBob    { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.6px); } }
+@keyframes sceneStep   { from { transform: rotate(-16deg); } to { transform: rotate(16deg); } }
+@keyframes sceneCloud  { from { transform: translateX(0); } to { transform: translateX(38px); } }
+@keyframes sceneRibbon { to { stroke-dashoffset: -9.1; } }
+@keyframes sceneWave   { 0%, 100% { transform: scaleX(1) skewY(-3deg); } 50% { transform: scaleX(0.82) skewY(4deg); } }
+@keyframes scenePing   { 0% { opacity: 0; } 30% { opacity: 0.95; } 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .scene-sway, .scene-fly, .scene-drift, .scene-comet, .scene-hover, .scene-spin, .scene-butterfly, .scene-wing,
+  .scene-flicker, .scene-lamp, .scene-twinkle, .scene-smoke, .scene-signal, .scene-walk, .scene-bob,
+  .scene-step, .scene-step2, .scene-cloud, .scene-ribbon, .scene-wave, .scene-ping { animation: none !important; }
+  .scene-walk { opacity: 1; }
+  .scene-ping { opacity: 0.6; }
+}
+
+/* Section chrome that hosts a scene */
+.hero .container, .contact-section > .container, .about-hero-wrap .container { position: relative; z-index: 1; }
+.scroll-indicator { z-index: 3; }

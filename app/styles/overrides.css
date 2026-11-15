@@ -1,0 +1,127 @@
+/* ═══════════════════════════════════════════════════════════════
+   OVERRIDES — late-cascade adjustments to rules in the section files
+   Loaded near the end of globals.css on purpose: anything here wins over the section files at equal specificity.
+   Prefer editing the section file; add a rule here only when it must beat a later-loaded file.
+═══════════════════════════════════════════════════════════════ */
+
+/* ── Accessibility, touch and small-screen fixes ── */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* theme toggle: visible keyboard focus */
+.switch input:focus-visible + .slider { outline: 2px solid var(--fg); outline-offset: 3px; }
+
+/* scroll cue is a <button>: strip the native button look */
+button.scroll-indicator { background: none; border: 0; font-family: inherit; line-height: inherit; letter-spacing: inherit; cursor: pointer; }
+button.scroll-indicator:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; border-radius: 8px; }
+
+/* hero: keep the text clear of the right-hand art; steady height for the rotating bits */
+@media (min-width: 900px) and (max-width: 1280px) {
+  .hero-text-col { max-width: 56vw; }
+  .hero-personality { max-width: 100%; }
+}
+@media (max-width: 899px) {
+  .scene--hero .scene-sky { -webkit-mask-image: none; mask-image: none; opacity: 0.45; }  /* text spans full width here */
+}
+.hero h2 { min-height: 2.6em; align-content: flex-start; }
+@media (min-width: 1281px) { .hero h2 { min-height: 1.5em; } }   /* narrower screens may wrap the longer phrases */
+.currently-badge { max-width: 100%; align-items: center; line-height: 1.4; border-radius: 18px; }
+.currently-badge .rotating-word { min-width: 0; }
+/* phones: phrases can wrap to two lines — reserve both so the hero doesn't jump, and keep the dot centred on the pill */
+@media (max-width: 559px) { .currently-badge { min-height: calc(2.8em + 16px); } }
+
+/* contact: clear the tall band, keep labels legible, no orphan icon on small phones */
+.social-label { padding: 1px 7px; border-radius: 999px; background: color-mix(in srgb, var(--bg2) 82%, transparent); }
+@media (max-width: 400px) {
+  .social-links { column-gap: 14px; }
+  .social-links a { width: 48px; height: 48px; font-size: 0.95rem; }
+}
+
+/* about portrait: keep the orbit/halo inside the page padding on tablets */
+@media (max-width: 1100px) {
+  .profile-orbit { width: 240px; height: 300px; }
+  .profile-halo { inset: -46px -34px; }
+}
+.profile-fallback { display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 2.2rem; color: var(--fg2); background: var(--card-bg); opacity: 1; animation: none; }
+
+/* touch: no flip, so surface a few tech pills on the front instead */
+.card-front-tech { display: none; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+@media (hover: none) {
+  .flip-hint { display: none; }
+  .card-front-tech { display: flex; }
+}
+
+/* glyph for GlyphScholar */
+.glyph-glyphscholar .glyph-cite { transform-origin: center; transform-box: fill-box; transition: transform 0.35s var(--ease); }
+.project-card:hover .glyph-glyphscholar .glyph-cite, .proj-frame:hover .glyph-glyphscholar .glyph-cite { transform: scale(1.3); }
+@media (prefers-reduced-motion: reduce) { .glyph-glyphscholar .glyph-cite { transition: none; } }
+
+/* Off-screen scenes: pause every CSS animation inside (SMIL is paused in useScenePlayback) */
+.is-offscreen, .is-offscreen * { animation-play-state: paused !important; }
+
+/* ── Hero, project cards and closing scenes ── */
+/* project cards: every window frame the same width, glyph a touch larger so it fills the frame */
+.project-card .device-frame { width: 188px; max-width: 100%; }
+.project-card .device-frame-body .project-glyph { width: 60px; height: 40px; }
+
+/* project pages end at the camp, like Home and About */
+.proj-end { position: relative; height: clamp(120px, 16vw, 400px); margin-top: 0; overflow: hidden; pointer-events: none; }
+.proj-nav { margin-bottom: 0; }
+
+/* About: the résumé button never wraps, even in the narrow mobile column */
+.btn-resume--about { white-space: nowrap; }
+@media (max-width: 768px) {
+  .profile-col { width: auto; min-width: 120px; display: flex; flex-direction: column; align-items: center; }
+  .btn-resume--about { width: max-content; }
+}
+
+/* Mobile hero: show a compact version of the summit scene under the text, and keep the sky art to the top of the section. */
+@media (max-width: 900px) {
+  .scene--hero > .scene-focal {
+    display: block;
+    width: min(70vw, 320px);
+    right: -3vw;
+    bottom: 0;                       /* its ground sits flush on the section floor, like on desktop */
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 12%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 12%);
+  }
+  .scroll-indicator { display: none; }   /* the art owns the bottom of the hero on small screens */
+  .scene--hero .scene-sky { height: 480px; bottom: auto; }
+}
+
+/* Space: project-page closing scene gets its own stars (the band alone left a blank black sky) */
+.proj-end::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.6s var(--ease);
+  background-repeat: repeat; background-size: 180px 180px;
+  background-image:
+          radial-gradient(2px 2px at 12% 22%, rgba(255,255,255,0.95), transparent),
+          radial-gradient(1.6px 1.6px at 31% 64%, rgba(255,255,255,0.8), transparent),
+          radial-gradient(1.8px 1.8px at 58% 30%, rgba(255,255,255,0.85), transparent),
+          radial-gradient(1.4px 1.4px at 77% 70%, rgba(255,255,255,0.7), transparent),
+          radial-gradient(2px 2px at 90% 18%, rgba(255,255,255,0.9), transparent);
+  -webkit-mask-image: linear-gradient(180deg, #000 0, #000 45%, transparent 85%);
+  mask-image: linear-gradient(180deg, #000 0, #000 45%, transparent 85%);
+}
+[data-theme="dark"] .proj-end::before { opacity: 1; }
+
+/* phones: keep the contact sky art (sun / planet) from running into the chapter label */
+@media (max-width: 600px) { .scene--contact .scene-sky { opacity: 0.5; } }
+
+/* ── Hero info block (Location / Status / Education) ── */
+/* each fact on its own line, so nothing wraps with a stray "·" or "—" at the end of a line */
+.career-column .career-line { display: block; }
+/* the three blocks read as one group: a tighter gap between rows (the label→value gap stays smaller still) */
+.hero .career-info { margin-top: 22px; }
+.hero .other-info .career-info { margin-top: 0; }
+.hero .other-info { margin-top: 28px; }
+/* "Available now": a status chip that links to the contact section */
+.career-column a.status-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: 6px; padding: 3px 12px 3px 10px;
+  border: 1px solid var(--fg3); border-radius: 999px;
+  color: var(--fg); font-size: 0.85rem; line-height: 1.6;
+  transition: background var(--t), border-color var(--t);
+}
+.career-column a.status-chip:hover { border-color: var(--fg); background: color-mix(in srgb, var(--fg) 8%, transparent); }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; background: #3fae5a; box-shadow: 0 0 0 0 rgba(63,174,90,.55); animation: statusPulse 2.2s ease-out infinite; }
+@keyframes statusPulse { 70% { box-shadow: 0 0 0 7px rgba(63,174,90,0); } 100% { box-shadow: 0 0 0 0 rgba(63,174,90,0); } }
+@media (prefers-reduced-motion: reduce) { .status-dot { animation: none; } }

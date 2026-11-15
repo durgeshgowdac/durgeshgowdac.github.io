@@ -1,0 +1,253 @@
+/* ═══════════════════════════════════════════════════════════════
+   PROJECTS SECTION
+═══════════════════════════════════════════════════════════════ */
+.projects-section {
+  padding: var(--section-pad-top) 0 var(--section-pad-bottom);
+}
+/* The trail / asteroid-belt strip is the frame's header: the wrapper takes the strip's own ratio so the whole scene
+   shows at every width (never cropped), and the frame's rounded top provides the edge fade. */
+.card-art--journey { aspect-ratio: 780 / 150; }   /* every wide section strip is 780 : 150 */
+.card-art--journey .journey { -webkit-mask-image: none; mask-image: none; }
+.projects-section .about-section > .chapter-mark { margin-bottom: 10px; }   /* badge → heading, as Ch.02 / Ch.03 */
+.projects-section .project-card { background: var(--bg); }                   /* cards sit on --bg inside the --card-bg frame */
+
+.projects-section h2 {
+  font-family: var(--font-display);
+  font-size: var(--section-title-size);
+  letter-spacing: var(--section-title-tracking);
+  margin-bottom: var(--heading-gap);
+}
+/* Filter bar */
+.filters-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: var(--card-gap);   /* search/filters → cards: the one About gap */
+}
+
+.project-search {
+  width: 100%;
+  max-width: 360px;
+  padding: 10px 16px;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  color: var(--fg);
+  outline: none;
+  transition: border-color var(--t), box-shadow var(--t), background var(--t);
+  /* Full width on small screens */
+}
+@media (max-width: 480px) { .project-search { max-width: 100%; } }
+
+.project-search::placeholder { color: var(--fg3); }
+.project-search:focus {
+  border-color: var(--fg);
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.chip {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.07em;
+  padding: 6px 14px;
+  border: 1px solid var(--card-border);
+  border-radius: 100px;
+  background: transparent;
+  color: var(--fg2);
+  cursor: pointer;
+  white-space: nowrap;
+  /* min tap target */
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  transition: all var(--t) var(--ease);
+}
+.chip:hover  { border-color: var(--fg); color: var(--fg); background: var(--bg2); }
+.chip.active { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+@media (max-width: 480px) {
+  .chip { font-size: 0.75rem; padding: 5px 11px; }
+}
+
+.project-count {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--fg3);
+  text-transform: uppercase;
+}
+
+/* ── Grid: 3 col → 2 col → 1 col ── */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cards-per-row, 3), 1fr);
+  gap: var(--card-gap);
+}
+@media (max-width: 1024px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width:  600px) { .projects-grid { grid-template-columns: 1fr; } }
+
+/* ── Card ── */
+.project-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(18px);
+  perspective: 1200px;
+  transition:
+          opacity      0.5s var(--ease),
+          transform    0.5s var(--ease),
+          background   var(--t),
+          border-color var(--t),
+          box-shadow   var(--t);
+}
+.project-card:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
+.project-card.visible { opacity: 1; transform: translateY(0); }
+
+/* ── Double-sided card: front (summary) flips to back (role, full tech
+     stack, and a case-study prompt) on hover ── */
+.card-flip {
+  position: relative;
+  display: grid;           /* both faces share one cell → card is as tall as the taller face */
+  flex: 1 1 auto;          /* fills the whole card (cards in a row are equal height), so the pinned hint / CTA below sit at the card's own bottom edge on every card */
+  width: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.65s var(--ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .project-card:hover .card-flip { transform: rotateY(180deg); }
+}
+.project-card:focus-visible .card-flip { transform: rotateY(180deg); }
+@media (prefers-reduced-motion: reduce) {
+  .card-flip { transition: none; }
+}
+.card-face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 28px 56px;
+  width: 100%;
+}
+.card-face-front {
+  grid-area: 1 / 1;
+  position: relative;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-height: 240px;
+}
+.card-face-front p {
+  font-size: 0.86rem;
+  color: var(--fg2);
+  line-height: 1.6;
+  margin-top: 12px;
+}
+.flip-hint {
+  /* fixed spot: pinned to the card's bottom-left, the same place on every card whatever the text above it takes */
+  position: absolute;
+  left: 28px;
+  bottom: 24px;
+  margin-top: 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--fg3);
+  opacity: 0.6;
+}
+.card-face-back {
+  grid-area: 1 / 1;
+  position: relative;
+  transform: rotateY(180deg);
+  justify-content: center;
+}
+.card-face-back p {
+  font-size: 0.86rem;
+  color: var(--fg2);
+  line-height: 1.6;
+  margin-top: 10px;
+}
+.card-face-back .project-stat { margin-top: 0; padding-top: 0; border-top: none; }
+.card-back-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 16px 0;
+}
+.card-tech-pill {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--card-border);
+  color: var(--fg2);
+}
+.card-back-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  /* fixed spot: pinned to the card's bottom-left, level with the flip hint on the front */
+  position: absolute;
+  left: 28px;
+  bottom: 24px;
+  margin-top: 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  color: var(--fg);
+  font-weight: 500;
+}
+
+/* Wipe fill — only on hover-capable devices */
+.project-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--fg);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.42s var(--ease);
+  z-index: 0;
+}
+@media (hover: hover) and (pointer: fine) {
+  .project-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-card-hover); }
+  .project-card:hover::before { transform: scaleY(1); }
+  .project-card:hover .project-tag   { color: rgba(var(--on-fill-rgb), 0.55); }
+  .project-card:hover .project-glyph { color: rgba(var(--on-fill-rgb), 0.55); }
+  .project-card:hover .device-frame       { border-color: rgba(var(--on-fill-rgb), 0.3); background: transparent; }
+  .project-card:hover .device-frame-bar   { background: rgba(var(--on-fill-rgb), 0.06); border-bottom-color: rgba(var(--on-fill-rgb), 0.2); }
+  .project-card:hover .device-frame-dot   { background: rgba(var(--on-fill-rgb), 0.4); }
+  .project-card:hover .device-frame-label { color: rgba(var(--on-fill-rgb), 0.55); }
+  .project-card:hover h3            { color: var(--on-fill); }
+  .project-card:hover p             { color: var(--on-fill-body); }
+  .project-card:hover .project-stat { color: var(--on-fill); border-top-color: rgba(var(--on-fill-rgb), 0.25); }
+  .project-card:hover .arrow { color: var(--on-fill-arrow); transform: translate(5px, -5px); }
+
+  /* Back-face tech pills + CTA were inheriting --fg2/--fg, which sat almost
+     invisibly on top of the wipe-fill (--fg) once flipped — fix contrast. */
+  .project-card:hover .card-tech-pill { color: rgba(var(--on-fill-rgb), 0.82); border-color: rgba(var(--on-fill-rgb), 0.3); }
+  .project-card:hover .card-back-cta  { color: var(--on-fill); }
+}
+
+/* Touch — subtle press feedback */
+@media (hover: none) {
+  .project-card:active { background: var(--bg2); transform: scale(0.99); }
+}
+
+.project-card > * { position: relative; z-index: 1; }
+
+.device-frame-body .project-glyph { width: 60px; height: 40px; }   /* a little larger: the glyphs now carry more detail */
+.project-glyph {
+  color: var(--fg3);
+  display: block;
+  transition: color var(--t), transform var(--t) var(--ease);
+}

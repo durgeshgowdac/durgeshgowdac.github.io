@@ -1,0 +1,75 @@
+/* ═══════════════════════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  min-height: 100dvh; /* dynamic viewport — avoids mobile browser chrome issue */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: calc(var(--header-h) + 4px);   /* hero height budget; see .hello-line */
+  padding-bottom: 48px;
+  position: relative;
+  overflow: hidden;
+}
+/* Hero padding lives here and nowhere else. Phones reserve room for the summit scene under the text;
+   short laptop screens give the scroll cue its own strip below the Location/Status row. */
+@media (max-width: 900px) { .hero { padding-bottom: calc(min(70vw, 320px) * 0.98 + 24px); } }
+@media (max-width: 768px) { .hero { padding-top: calc(var(--header-h) + 20px); } }
+@media (min-width: 901px) and (max-height: 860px) { .hero { padding-bottom: 96px; } }
+.hero {
+  background-image:
+          radial-gradient(420px 420px at 88% 8%, var(--hero-glow-a), transparent 70%),
+          radial-gradient(360px 360px at 8% 85%, var(--hero-glow-b), transparent 70%);
+  background-repeat: no-repeat;
+}
+
+/* Decorative orb — warm dappled-light glow (nature) in light theme,
+   nebula glow (space) in dark theme */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -10%; right: -5%;
+  width: min(500px, 80vw);
+  height: min(500px, 80vw);
+  background: radial-gradient(circle at center, var(--hero-orb), transparent 70%);
+  border-radius: 50%;
+  animation: orbPulse 10s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Space-mode starfield — a tiled dot pattern that twinkles gently */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s var(--ease);
+}
+[data-theme="dark"] .hero::after {
+  opacity: 1;
+  /* full-strength stars in the open sky, dimmer behind the text column */
+  -webkit-mask-image: linear-gradient(90deg, rgba(0,0,0,.5) 0, rgba(0,0,0,.5) 50%, #000 80%);
+  mask-image: linear-gradient(90deg, rgba(0,0,0,.5) 0, rgba(0,0,0,.5) 50%, #000 80%);
+  background-repeat: repeat;
+  background-size: 180px 180px;
+  background-image:
+          radial-gradient(2.4px 2.4px at 10% 20%, rgba(var(--star-rgb),1), transparent),
+          radial-gradient(1.8px 1.8px at 25% 65%, rgba(var(--star-rgb),0.85), transparent),
+          radial-gradient(2.8px 2.8px at 40% 15%, rgba(var(--star-rgb),1), transparent),
+          radial-gradient(1.8px 1.8px at 55% 80%, rgba(var(--star-rgb),0.8), transparent),
+          radial-gradient(2.4px 2.4px at 70% 35%, rgba(var(--star-rgb),1), transparent),
+          radial-gradient(1.7px 1.7px at 85% 60%, rgba(var(--star-rgb),0.85), transparent),
+          radial-gradient(2.6px 2.6px at 95% 20%, rgba(var(--star-rgb),0.95), transparent),
+          radial-gradient(2px 2px at 15% 85%, rgba(var(--star-rgb),0.8), transparent),
+          radial-gradient(2.2px 2.2px at 65% 10%, rgba(var(--star-rgb),0.9), transparent),
+          radial-gradient(1.8px 1.8px at 30% 45%, rgba(var(--star-rgb),0.75), transparent),
+          radial-gradient(3.2px 3.2px at 50% 55%, rgba(var(--star-rgb),1), transparent),
+          radial-gradient(2px 2px at 80% 90%, rgba(var(--star-rgb),0.85), transparent);
+  animation: starTwinkle 6s ease-in-out infinite alternate;
+}
+@keyframes starTwinkle { from { opacity: 0.7; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { [data-theme="dark"] .hero::after { animation: none; } }
+.scene--hero { z-index: 1; }

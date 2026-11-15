@@ -1,0 +1,15 @@
+/* ═══════════════════════════════════════════════════════════════
+   PRINT
+═══════════════════════════════════════════════════════════════ */
+@media print {
+  header, .cursor-dot, .cursor-ring,
+  .progress-bar, .scroll-indicator { display: none !important; }
+  body { cursor: auto; background: #fff; color: #000; }
+  .project-card  { opacity: 1 !important; transform: none !important; break-inside: avoid; border: 1px solid #ccc; }
+  .about-hero    { grid-template-columns: 1fr; }
+  .about-grid    { grid-template-columns: 1fr; }
+  .timeline-item { opacity: 1 !important; transform: none !important; }
+  .skill-group, .proj-section-hidden, .reveal { opacity: 1 !important; transform: none !important; }
+  :root, [data-theme="dark"] { --fg:#000; --fg2:#222; --fg3:#444; --bg:#fff; --bg2:#fff; --card-bg:#fff; --card-border:#ccc; }
+  .scene, .journey, .journey-rail, .card-art, .card-mark, .section-mark, .profile-orbit, .profile-flight, .profile-halo, .marquee { display: none !important; }
+}

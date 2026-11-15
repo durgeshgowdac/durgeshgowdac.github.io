@@ -1,0 +1,28 @@
+/* ═══════════════════════════════════════════════════════════════
+   404 — "off the trail" / "signal lost"
+═══════════════════════════════════════════════════════════════ */
+.nf-page { min-height: 100dvh; display: flex; flex-direction: column; padding-top: calc(var(--header-h) + 36px); overflow-x: clip; }   /* Appa's flight may pass beyond the art box */
+.nf-content { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; padding-bottom: 28px; }
+.nf-content .chapter-mark { margin-bottom: 8px; }
+.nf-art { width: min(100%, 420px); height: auto; margin: 6px 0 4px; overflow: visible; color: var(--fg); }
+.nf-q { font-family: var(--font-display); fill: var(--fg2); }
+.nf-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.1; color: var(--fg); margin: 10px 0 12px; }
+.nf-copy { max-width: 520px; color: var(--fg2); line-height: 1.75; font-size: 0.95rem; }
+.nf-actions { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 18px; margin-top: 24px; }
+.nf-link { font-family: var(--font-mono); font-size: 0.8rem; color: var(--fg2); text-decoration: none; border-bottom: 1px solid var(--card-border); padding-bottom: 2px; transition: color var(--t), border-color var(--t); }
+.nf-link:hover { color: var(--fg); border-color: var(--fg); }
+.nf-ground { margin-top: auto; }
+.nf-drift { animation: sceneDrift 7s ease-in-out infinite; }
+.nf-drift { transform-box: fill-box; transform-origin: center; }
+@media (prefers-reduced-motion: reduce) { .nf-drift { animation: none; } }
+
+/* very small phones (≤360px): tighten the header chrome so logo + toggle + nav + button all fit */
+@media (max-width: 360px) {
+  header { padding-left: 12px; padding-right: 12px; }
+  .logo-container { gap: 8px; }
+  .logo-link { font-size: 0.8rem; gap: 6px; }
+  .logo-mark { width: 22px; height: 22px; }
+  nav a { padding-left: 6px; padding-right: 6px; font-size: 0.7rem; letter-spacing: 0.06em; }
+  nav a::after { left: 6px; width: calc(100% - 12px); }
+  .header-cta-link { width: 34px; min-height: 34px; }
+}

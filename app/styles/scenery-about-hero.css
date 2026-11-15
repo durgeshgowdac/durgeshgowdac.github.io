@@ -1,0 +1,86 @@
+/* ── About hero: full-bleed stage + portrait halo ── */
+.about-hero-wrap {
+  position: relative;
+  overflow: clip;
+  padding-top: var(--header-h);
+  border-bottom: 1px solid var(--card-border);
+}
+[data-theme="dark"] .about-hero-wrap {
+  background-image:
+          radial-gradient(520px 420px at 92% 10%, rgba(130,120,255,0.16), transparent 70%),
+          radial-gradient(420px 420px at 6% 80%, rgba(90,140,255,0.10), transparent 70%);
+  background-repeat: no-repeat;
+}
+.about-hero-wrap .about-hero {
+  border-bottom: none;
+  overflow: visible;
+  padding-bottom: clamp(130px, 15vw, 210px);
+}
+.about-hero .chapter-mark { opacity: 0; animation: fadeUp 0.9s var(--ease) 0s forwards; }
+/* Halo: a warm glow and a dashed orbit of small shapes around the portrait */
+.profile-frame { position: relative; width: 200px; height: 256px; flex-shrink: 0; }
+.profile-frame .profile-img {
+  width: 100%; height: 100%;   /* fill the frame at every breakpoint (frame owns the size) */
+  position: relative; z-index: 1;
+  box-shadow:
+          0 0 0 4px var(--scene-fill),
+          0 0 0 5.5px color-mix(in srgb, var(--scene-ink) 75%, transparent),
+          0 16px 44px color-mix(in srgb, var(--scene-glow) 55%, transparent);
+  transition: filter var(--t), transform var(--t) var(--ease), box-shadow var(--t) var(--ease);
+}
+/* same highlight as the cards: the ring darkens to --fg3 and the photo lifts 2px */
+.profile-frame .profile-img:hover {
+  transform: translateY(-2px);
+  box-shadow:
+          0 0 0 4px var(--scene-fill),
+          0 0 0 5.5px var(--fg3),
+          0 16px 44px color-mix(in srgb, var(--scene-glow) 55%, transparent);
+}
+.profile-halo {
+  position: absolute; z-index: 0;
+  inset: -84px -72px;
+  border-radius: 50%;
+  background:
+          radial-gradient(closest-side, var(--halo-1) 0%, transparent 100%),
+          radial-gradient(closest-side, var(--halo-2) 35%, transparent 100%);
+  filter: blur(8px);
+  animation: haloPulse 6s ease-in-out infinite;
+  pointer-events: none;
+}
+.profile-orbit {
+  position: absolute; z-index: 0;
+  left: 50%; top: 50%;
+  width: 320px; height: 380px;
+  transform: translate(-50%, -50%);
+  color: var(--scene-ink);
+  pointer-events: none;
+  overflow: visible;   /* the butterflies may wander past the ring */
+}
+/* the compact flight under the Download Resume button: ONLY where the hero's background flight is hidden (≤ 900px, see .scene > .scene-focal). It is wider than the
+   photo column (negative side margins keep its layout width at the column's) so the characters stay readable. */
+.profile-flight { display: none; }
+@media (max-width: 900px) {
+  .profile-flight { display: block; width: 300px; margin-inline: -50px; height: auto; flex-shrink: 0; color: var(--sc-line); pointer-events: none; }
+}
+@keyframes haloPulse { 0%, 100% { opacity: 0.8; transform: scale(1); } 50% { opacity: 1; transform: scale(1.06); } }
+@media (max-width: 768px) {
+  .profile-frame { width: 120px; height: 156px; }
+  .profile-halo { inset: -40px -34px; }
+  .profile-orbit { display: none; }
+  /* phones and small tablets: the strip runs the full width of the screen. Its margin box is 0 wide (100vw − 50vw − 50vw), so it adds nothing to the
+     column's width and the centred column puts it dead centre on the page; the hero clips anything past the edge. */
+  .profile-flight { width: 100vw; height: clamp(170px, 50vw, 240px); margin-inline: -50vw; }
+}
+@media (max-width: 480px) { .profile-frame { width: 100px; height: 130px; } .profile-halo { inset: -32px -28px; } }
+@media (prefers-reduced-motion: reduce) { .profile-halo { animation: none; } }
+.about-page { padding-top: 0; }
+.about-page .about-section > .chapter-mark { margin-bottom: 10px; }
+.about-section--wide .card-art { margin-bottom: 22px; }
+/* Ch.01 leads the page: same top breathing room it had before it became a section, and the badge sits one
+   --card-gap above the cards so badge→cards matches card→card. */
+.about-page > .about-section--body { margin-top: var(--section-pad-top); }
+.about-page .about-section--body > .chapter-mark { margin-bottom: var(--card-gap); }
+
+/* About, Space: Harry's speech bubble rides in its own layer ABOVE the page text (.about-hero-wrap .container is z-index 1), so it never slides under the paragraphs.
+   Same box as the focal art (see .scene-focal); the bubble is drawn on the same clock as the pair, which stays behind the text. */
+.scene.scene--about-top { z-index: 2; }

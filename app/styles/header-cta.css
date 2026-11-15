@@ -1,0 +1,39 @@
+/* ═══════════════════════════════════════════════════════════════
+   HEADER CTA ("Get in touch" + copy email)
+═══════════════════════════════════════════════════════════════ */
+.header-cta {
+  position: relative; display: flex; align-items: stretch; margin-left: 12px;
+  border-radius: 999px; background: var(--fg); color: var(--bg);
+  transition: transform var(--t) var(--ease), box-shadow var(--t) var(--ease);
+}
+.header-cta:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+.header-cta-link, .header-cta-copy {
+  display: flex; align-items: center; gap: 8px; min-height: 38px;
+  font-family: var(--font-mono); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+  color: inherit; background: none; border: 0; cursor: pointer; text-decoration: none; white-space: nowrap;
+  transition: opacity var(--t);
+}
+.header-cta-link { padding: 0 14px 0 17px; border-radius: 999px 0 0 999px; }
+.header-cta-copy { padding: 0 14px 0 12px; border-radius: 0 999px 999px 0; border-left: 1px solid color-mix(in srgb, var(--bg) 28%, transparent); font-size: 0.8rem; }
+.header-cta-link:hover, .header-cta-copy:hover { opacity: 0.82; }
+.header-cta-link:focus-visible, .header-cta-copy:focus-visible { outline: 2px solid var(--bg); outline-offset: -4px; }
+.header-cta-tip {
+  position: absolute; top: calc(100% + 8px); right: 0; padding: 4px 10px; border-radius: 8px;
+  background: var(--fg); color: var(--bg); font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.06em; white-space: nowrap;
+  opacity: 0; transform: translateY(-4px); pointer-events: none; transition: opacity 0.2s, transform 0.2s;
+}
+.header-cta-tip.show { opacity: 1; transform: none; }
+@media (max-width: 900px) { .header-cta { margin-left: 4px; } nav a { padding-left: 12px; padding-right: 12px; } nav a::after { left: 12px; width: calc(100% - 24px); } }
+/* phones: the pill collapses to a round envelope button so the header never overflows */
+.header-cta .cta-icon { display: none; font-size: 0.85rem; }   /* .header-cta prefix: Font Awesome's own .fas rule loads after this file */
+@media (max-width: 640px) {
+  .header-cta-copy { display: none; }
+  .header-cta-link { width: 38px; padding: 0; justify-content: center; border-radius: 50%; }
+  .cta-long { display: none; }
+  .header-cta .cta-icon { display: inline-block; }
+  .header-cta { margin-left: 2px; }
+}
+@media (max-width: 480px) {
+  nav a { padding-left: 8px; padding-right: 8px; letter-spacing: 0.08em; font-size: 0.75rem; }
+  nav a::after { left: 8px; width: calc(100% - 16px); }
+}

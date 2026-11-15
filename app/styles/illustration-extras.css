@@ -1,0 +1,115 @@
+/* ═══════════════════════════════════════════════════════════════
+   Illustration extras: aurora shimmer
+═══════════════════════════════════════════════════════════════ */
+.scene-aurora { animation: sceneAurora 14s ease-in-out infinite alternate; }
+@keyframes sceneAurora { from { opacity: 0.65; transform: translateY(0); } to { opacity: 1; transform: translateY(4px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .scene-aurora { animation: none; }
+}
+
+/* Abduction: the beam fades in, the alien is lifted into the saucer (shrinking as it goes), the beam fades out, the
+   alien is back on the ground. One 14s loop; delays desynchronise several. */
+.scene-abduct-beam  { opacity: 0; animation: abductBeam 16s ease-in-out infinite; }
+.scene-abduct-rib   { opacity: 0; animation: abductRib 16s ease-in-out infinite; }
+.scene-abduct-alien { transform-box: fill-box; transform-origin: 50% 100%; animation: abductAlien 16s ease-in-out infinite; }
+/* the beam and its dotted edge lines share one timeline: both fade out once the alien is aboard, both return with the next beam */
+.scene-abduct-ufo   { transform-box: fill-box; transform-origin: 50% 50%; animation: abductUfo 16s linear infinite; }
+.scene-abduct-trail { stroke-dasharray: 0.28 2; stroke-dashoffset: 0.28; opacity: 0; animation: abductTrail 16s linear infinite; }
+.scene-abduct-rider { opacity: 0; animation: abductRider 16s ease-in-out infinite; }
+.scene-abduct-say   { opacity: 0; animation: abductSay 16s ease-in-out infinite; }
+/* the alien shows up inside the dome once it has been lifted through the hull, and is gone with the saucer */
+/* two "Patu"s while he stands on the ground (he is lifted from 22 %, and is back at 99 %) */
+@keyframes abductSay { 0%, 2.5% { opacity: 0; } 4%, 9% { opacity: 1; } 10.5%, 12.5% { opacity: 0; } 14%, 19% { opacity: 1; } 20.5%, 100% { opacity: 0; } }
+@keyframes abductRider { 0%, 56% { opacity: 0; } 61%, 95% { opacity: 1; } 96%, 100% { opacity: 0; } }
+@keyframes abductUfo {
+  0%, 73% { transform: none; opacity: 1; }
+  75.5%   { transform: translate(-2px, -2px) rotate(-10deg); }
+  77%     { transform: translate(2px, 0) rotate(8deg); }
+  78.5%   { transform: translate(-1px, -2px) rotate(-6deg); }
+  80% { transform: translate(0px, 0px) rotate(0deg) scale(1.00); }
+  80.7% { transform: translate(2px, -1px) rotate(1deg) scale(0.99); }
+  81.3% { transform: translate(6px, -3px) rotate(3deg) scale(0.97); }
+  82.0% { transform: translate(10px, -6px) rotate(4deg) scale(0.94); }
+  82.7% { transform: translate(15px, -9px) rotate(5deg) scale(0.92); }
+  83.4% { transform: translate(20px, -13px) rotate(5deg) scale(0.88); }
+  84.0% { transform: translate(24px, -18px) rotate(4deg) scale(0.85); }
+  84.6% { transform: translate(27px, -24px) rotate(2deg) scale(0.82); }
+  85.2% { transform: translate(28px, -30px) rotate(-1deg) scale(0.79); }
+  85.8% { transform: translate(28px, -36px) rotate(-3deg) scale(0.76); }
+  86.4% { transform: translate(25px, -42px) rotate(-5deg) scale(0.73); }
+  87.1% { transform: translate(19px, -49px) rotate(-5deg) scale(0.69); }
+  87.7% { transform: translate(13px, -54px) rotate(-3deg) scale(0.65); }
+  88.3% { transform: translate(6px, -57px) rotate(-0deg) scale(0.61); }
+  88.9% { transform: translate(-1px, -60px) rotate(3deg) scale(0.57); }
+  89.5% { transform: translate(-8px, -63px) rotate(5deg) scale(0.54); }
+  90.0% { transform: translate(-14px, -67px) rotate(5deg) scale(0.50); }
+  90.5% { transform: translate(-20px, -72px) rotate(4deg) scale(0.47); }
+  91.0% { transform: translate(-23px, -78px) rotate(2deg) scale(0.43); }
+  91.5% { transform: translate(-23px, -85px) rotate(-1deg) scale(0.40); }
+  92.0% { transform: translate(-21px, -92px) rotate(-4deg) scale(0.36); }
+  92.5% { transform: translate(-18px, -99px) rotate(-5deg) scale(0.33); }
+  93.0% { transform: translate(-13px, -105px) rotate(-5deg) scale(0.29); }
+  93.5% { transform: translate(-7px, -110px) rotate(-3deg) scale(0.25); }
+  94.0% { transform: translate(-2px, -115px) rotate(-0deg) scale(0.22); }
+  94.4% { transform: translate(2px, -120px) rotate(2deg) scale(0.19); }
+  94.7% { transform: translate(6px, -125px) rotate(4deg) scale(0.16); opacity: 1; }
+  95.0% { transform: translate(8px, -128px) rotate(5deg) scale(0.14); opacity: 0; }
+  96%, 98% { transform: none; opacity: 0; }
+  100% { transform: none; opacity: 1; }
+}
+@keyframes abductTrail {
+  0%, 80% { stroke-dashoffset: 0.28; opacity: 0; }
+  80.7% { stroke-dashoffset: 0.26; opacity: 1; }
+  81.3% { stroke-dashoffset: 0.24; opacity: 1; }
+  82.0% { stroke-dashoffset: 0.21; opacity: 1; }
+  82.7% { stroke-dashoffset: 0.18; opacity: 1; }
+  83.4% { stroke-dashoffset: 0.15; opacity: 1; }
+  84.0% { stroke-dashoffset: 0.11; opacity: 1; }
+  84.6% { stroke-dashoffset: 0.08; opacity: 1; }
+  85.2% { stroke-dashoffset: 0.04; opacity: 1; }
+  85.8% { stroke-dashoffset: 0.00; opacity: 1; }
+  86.4% { stroke-dashoffset: -0.04; opacity: 1; }
+  87.1% { stroke-dashoffset: -0.08; opacity: 1; }
+  87.7% { stroke-dashoffset: -0.13; opacity: 1; }
+  88.3% { stroke-dashoffset: -0.17; opacity: 1; }
+  88.9% { stroke-dashoffset: -0.21; opacity: 1; }
+  89.5% { stroke-dashoffset: -0.26; opacity: 1; }
+  90.0% { stroke-dashoffset: -0.30; opacity: 1; }
+  90.5% { stroke-dashoffset: -0.34; opacity: 1; }
+  91.0% { stroke-dashoffset: -0.38; opacity: 1; }
+  91.5% { stroke-dashoffset: -0.42; opacity: 1; }
+  92.0% { stroke-dashoffset: -0.46; opacity: 1; }
+  92.5% { stroke-dashoffset: -0.50; opacity: 1; }
+  93.0% { stroke-dashoffset: -0.54; opacity: 1; }
+  93.5% { stroke-dashoffset: -0.59; opacity: 1; }
+  94.0% { stroke-dashoffset: -0.63; opacity: 1; }
+  94.4% { stroke-dashoffset: -0.66; opacity: 1; }
+  94.7% { stroke-dashoffset: -0.70; opacity: 1; }
+  95.0% { stroke-dashoffset: -0.72; opacity: 1; }
+  95.5%, 100% { stroke-dashoffset: -0.72; opacity: 0; }
+}
+@keyframes abductBeam {
+  0%, 10%   { opacity: 0; }
+  22%, 62%  { opacity: 0.34; }
+  74%, 100% { opacity: 0; }
+}
+@keyframes abductRib {
+  0%, 10%   { opacity: 0; }
+  22%, 62%  { opacity: 0.6; }
+  74%, 100% { opacity: 0; }
+}
+@keyframes abductAlien {
+  0%, 22%   { transform: translateY(0) scale(1); opacity: 1; animation-timing-function: cubic-bezier(0.5, 0, 0.9, 0.6); }
+  60%       { transform: translateY(var(--lift)) scale(0.3) rotate(8deg); opacity: 1; }
+  61%       { transform: translateY(var(--lift)) scale(0.3); opacity: 0; }
+  96%       { transform: translateY(0) scale(1); opacity: 0; }
+  99%, 100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scene-abduct-ufo, .scene-abduct-trail, .scene-abduct-rider { animation: none; }
+  .scene-abduct-beam, .scene-abduct-alien { animation: none; }
+  .scene-abduct-say { animation: none; opacity: 1; }
+  .scene-abduct-beam { opacity: 0.16; }
+  .scene-abduct-rib { animation: none; opacity: 0.55; }
+}

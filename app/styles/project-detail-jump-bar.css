@@ -1,0 +1,26 @@
+/* ═══════════════════════════════════════════════════════════════
+   PROJECT DETAIL — sticky "jump to" bar + always-on rail labels
+═══════════════════════════════════════════════════════════════ */
+.proj-section { scroll-margin-top: calc(var(--header-h) + 76px); }
+.proj-contact { scroll-margin-top: calc(var(--header-h) + 24px); }
+.proj-jump {
+  position: sticky; top: var(--header-h); z-index: 80;
+  display: flex; align-items: center; gap: 8px; padding: 10px 0;
+  overflow-x: auto; scrollbar-width: none;
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--card-border);
+}
+.proj-jump::-webkit-scrollbar { display: none; }
+.proj-jump-label { flex: none; margin-right: 4px; font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg3); }
+.proj-jump-chip {
+  flex: none; padding: 7px 14px; border: 1px solid var(--card-border); border-radius: 999px;
+  font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.04em; color: var(--fg2); text-decoration: none; white-space: nowrap;
+  transition: background var(--t), color var(--t), border-color var(--t);
+}
+.proj-jump-chip:hover { border-color: var(--fg3); color: var(--fg); }
+.proj-jump-chip.is-active { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.proj-jump-chip:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+@media (max-width: 480px) { .proj-jump-label { display: none; } }
+/* (the jump bar stays at every width; the rail reveals the current section's label on scroll, same as Work and About) */
+@media (prefers-reduced-motion: reduce) { .proj-jump { backdrop-filter: none; } }

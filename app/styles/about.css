@@ -1,0 +1,142 @@
+/* ═══════════════════════════════════════════════════════════════
+   ABOUT PAGE
+═══════════════════════════════════════════════════════════════ */
+.about-page {
+  padding-top: 0;
+  padding-bottom: 48px;
+}
+
+/* ── About hero ── */
+.about-hero {
+  padding: 72px 0 56px;
+  border-bottom: 1px solid var(--card-border);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 56px;
+  align-items: start;
+  position: relative;
+  overflow: hidden;
+}
+.about-hero-text, .about-hero .profile-col { position: relative; z-index: 1; }
+
+/* Tablet: stack vertically, image first */
+@media (max-width: 768px) {
+  .about-hero {
+    grid-template-columns: 1fr;
+    grid-template-areas: "img" "text";
+    gap: 32px;
+    padding: 48px 0 40px;
+  }
+  .about-hero-text { grid-area: text; }
+  .about-hero .profile-col { grid-area: img; width: 120px; margin: 0 auto; position: static; }
+  .profile-img     { width: 120px; height: 156px; }
+}
+@media (max-width: 480px) {
+  .about-hero { padding: 36px 0 28px; }
+  .profile-col { width: 100px; }
+  .profile-img { width: 100px; height: 130px; }
+}
+
+.about-hero .eyebrow {
+  opacity: 0;
+  animation: fadeUp 0.9s var(--ease) 0.05s forwards;
+}
+.about-hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  letter-spacing: -0.03em;
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fadeUp 0.9s var(--ease) 0.2s forwards;
+}
+.about-hero p {
+  font-size: 0.97rem;
+  line-height: 1.78;
+  color: var(--fg2);
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeUp 0.9s var(--ease) 0.4s forwards;
+}
+.about-hero p:last-child { margin-bottom: 0; }
+.profile-img {
+  width: 200px; height: 256px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  filter: grayscale(15%);
+  opacity: 0;
+  animation: fadeIn 1s ease 0.6s forwards;
+  box-shadow: var(--shadow-hover);
+  flex-shrink: 0;
+  transition: filter var(--t);
+}
+.profile-img:hover { filter: grayscale(0%); }
+
+.profile-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  flex-shrink: 0;
+  /* Nudged down a bit so it doesn't sit flush with the top of the grid row,
+     right against the "Who I Am" eyebrow — a little breathing room first. */
+  margin-top: 16px;
+  /* The bio text runs several paragraphs long, so pin the photo+button in
+     place as the page scrolls past it, rather than letting it sit stranded
+     at the top with a growing gap of empty space beneath it. Offset well
+     clear of the sticky header rather than hugging it. */
+  position: sticky;
+  top: calc(var(--header-h) + 56px);
+}
+.btn-resume--about {
+  opacity: 0;
+  animation: fadeUp 0.9s var(--ease) 0.7s forwards;
+  width: 100%;
+  justify-content: center;
+}
+@media (max-width: 768px) { .profile-col { width: 120px; } }
+@media (max-width: 480px) { .profile-col { width: 100px; } }
+
+/* ── About two-column grid ── */
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--card-gap);
+  align-items: stretch;   /* all three columns end at the same line… */
+}
+.about-col { display: flex; flex-direction: column; gap: var(--card-gap); min-width: 0; }
+@media (max-width: 1100px) {
+  .about-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .about-col:nth-child(3) { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--card-gap); }
+  .about-col:nth-child(3) .about-card:last-child { grid-column: 1 / -1; }
+}
+@media (max-width: 768px) {
+  .about-grid { grid-template-columns: 1fr; }
+  .about-col:nth-child(3) { display: flex; }
+}
+
+.about-card { position: relative; flex: 1 1 auto; } /* …cards share any spare height so columns match exactly */
+/* Inside the Ch.01 frame the cards sit on --bg (a step off the frame's --card-bg), exactly like .inspo-card / .sports-card */
+.about-section--wide .about-card { background: var(--bg); }
+.about-section.about-card h2 { padding-right: 62px; font-size: clamp(1.45rem, 1.9vw, 1.8rem); }
+.card-mark {
+  position: absolute; top: 18px; right: 18px;
+  width: 64px; height: 58px;
+  color: var(--sc-line);
+  pointer-events: none;
+}
+
+.about-section {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  transition: background var(--t), border-color var(--t);
+}
+@media (max-width: 480px) { .about-section { padding: 24px 20px; } }
+
+.about-section h2 {
+  font-family: var(--font-display);
+  font-size: var(--section-title-size);
+  letter-spacing: var(--section-title-tracking);
+  margin-bottom: var(--heading-gap);
+}

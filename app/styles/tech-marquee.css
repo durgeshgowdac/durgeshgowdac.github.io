@@ -1,0 +1,38 @@
+/* ═══════════════════════════════════════════════════════════════
+   TECH MARQUEE — continuous-scroll strip. Doubles as a chapter break
+   between Hero and Projects (full-bleed band, hairline top/bottom).
+═══════════════════════════════════════════════════════════════ */
+.marquee {
+  overflow: hidden;
+  background: var(--bg2);
+  border-top: 1px solid var(--card-border);
+  border-bottom: 1px solid var(--card-border);
+  padding: 20px 0;
+  transition: background var(--t), border-color var(--t);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 44s linear infinite;
+}
+.marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 28px;
+  padding: 0 28px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--fg3);
+  white-space: nowrap;
+}
+.marquee-dot { color: var(--card-border); }
+@keyframes marqueeScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+  .marquee { overflow-x: auto; }
+}

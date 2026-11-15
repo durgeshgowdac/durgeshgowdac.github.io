@@ -1,0 +1,106 @@
+/* ═══════════════════════════════════════════════════════════════
+   ELEMENT MARKS — the row of four marks on the hackathon cards (with its touch label) and the loading spinner built from the same marks.
+   Imported by ElementMarksPicker and ElementSpinner, so it loads wherever either appears. Nature = Avatar elements, Space = Star Wars emblems.
+═══════════════════════════════════════════════════════════════ */
+
+/* Star Wars faction colours (Space mode), tuned for the dark theme: Imperial stark grey, Rebel red, Jedi gold, Sith crimson */
+:root { --mark-empire: #d6d7de; --mark-rebel: #eb2a2f; --mark-jedi: #e3b341; --mark-sith: #c2162a; }
+
+/* ── The row, on a card ── */
+.element-marks {
+    --mark: 22px; --gap: 12px;
+    position: relative;
+    display: grid; margin-top: 20px; color: var(--sc-line);
+}
+@media (pointer: coarse) { .element-marks { --mark: 26px; } }   /* bigger on touch screens */
+/* both sets share one grid cell so the row is the same height in either mode */
+.element-marks-set { grid-area: 1 / 1; display: flex; align-items: center; gap: var(--gap); }
+
+.element-mark {
+    position: relative;
+    display: block; width: var(--mark); height: var(--mark);
+    padding: 0; margin: 0; border: 0; background: none; color: inherit; font: inherit;
+    cursor: pointer;
+    touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+}
+/* the tap target is bigger than the drawing: about 40 × 44 px, so a thumb can hit it without hitting its neighbour */
+.element-mark::after { content: ''; position: absolute; inset: -11px calc(var(--gap) / -2); }
+.element-mark svg {
+    display: block; width: 100%; height: 100%;
+    opacity: 0.72;
+    transition: opacity var(--t) var(--ease), transform var(--t) var(--ease);
+}
+.hackathon-card:hover .element-mark svg { opacity: 1; }
+.element-mark[data-on] svg { opacity: 1; transform: translateY(-2px); }
+@media (hover: hover) { .element-mark:hover svg { transform: translateY(-2px); } }
+.element-mark:focus-visible { outline: 2px solid var(--fg2); outline-offset: 5px; border-radius: 6px; }
+
+/* ── The touch label: name + one-line hint, above the row, with a pointer to the mark that opened it ── */
+.element-mark-label {
+    position: absolute; z-index: 6;
+    left: 0; bottom: calc(100% + 10px);
+    width: max-content; max-width: 100%;
+    /* wide enough that its pointer (below) always sits over its mark, even for the last one */
+    min-width: calc((var(--mark) + var(--gap)) * (var(--i) + 1) + 6px);
+    display: flex; flex-direction: column; gap: 2px;
+    padding: 9px 13px 10px;
+    background: var(--bg);
+    border: 1px solid var(--fg3);
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    pointer-events: none;
+    animation: element-label-in 0.16s var(--ease);
+}
+.element-mark-label strong {
+    font-family: var(--font-mono); font-size: 0.7rem; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg);
+}
+.element-mark-label span { font-size: 0.8rem; line-height: 1.4; color: var(--fg2); }
+.element-mark-label::after {
+    content: ''; position: absolute; bottom: -6px;
+    left: calc(var(--mark) / 2 + (var(--mark) + var(--gap)) * var(--i) - 5px);
+    width: 9px; height: 9px;
+    background: var(--bg);
+    border-right: 1px solid var(--fg3); border-bottom: 1px solid var(--fg3);
+    transform: rotate(45deg);
+}
+@keyframes element-label-in { from { opacity: 0; transform: translateY(4px); } }
+
+/* ── The loading spinner: the four marks on a turning ring, each counter-rotating so it stays upright ── */
+/* While the loading screen is up, the page is one screen tall: <main> takes whatever the footer leaves, so the footer sits at the bottom edge
+   (visible, no scrolling) and the spinner is centred in the space above it. Scoped with :has() so no other page's layout changes. */
+body:has(.route-loading) { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; }
+body:has(.route-loading) > main { flex: 1 0 auto; display: grid; }
+.route-loading { min-height: 320px; display: grid; place-items: center; }
+.element-spinner {
+    --r: 42px; --m: 32px; --turn: 8s;
+    position: relative; width: 124px; color: var(--sc-line);
+}
+.element-spinner-ring { position: relative; width: 124px; height: 124px; animation: element-spin var(--turn) linear infinite; }
+.element-spinner-ring::before {   /* the track the marks ride on */
+    content: ''; position: absolute; inset: calc(62px - var(--r));
+    border: 1px dashed var(--card-border); border-radius: 50%;
+}
+.element-spinner-set { position: absolute; inset: 0; }
+.element-spinner-mark {
+    position: absolute; left: 50%; top: 50%;
+    width: var(--m); height: var(--m);
+    margin: calc(var(--m) / -2) 0 0 calc(var(--m) / -2);
+    transform: rotate(calc(var(--i) * 90deg)) translateY(calc(var(--r) * -1)) rotate(calc(var(--i) * -90deg));
+    animation: element-chase 2.4s ease-in-out infinite;
+    animation-delay: calc(var(--i) * -0.6s);
+}
+.element-spinner-mark svg { display: block; width: 100%; height: 100%; animation: element-spin var(--turn) linear infinite reverse; }
+/* the Space set is normally paused while hidden (scenery.css); here a paused counter-spin would drift out of step with the ring, so keep both running */
+.element-spinner .scene-nature, .element-spinner .scene-nature *,
+.element-spinner .scene-space, .element-spinner .scene-space * { animation-play-state: running !important; }
+.element-spinner-label {
+    /* hangs below the ring instead of sitting in the flow, so the RING is what's centred on the screen, not ring + caption */
+    position: absolute; top: calc(100% + 18px); left: 0; right: 0; text-align: center;
+    font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg3);
+}
+@keyframes element-spin { to { transform: rotate(360deg); } }
+@keyframes element-chase { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+@media (prefers-reduced-motion: reduce) {
+    .element-spinner-ring, .element-spinner-mark, .element-spinner-mark svg, .element-mark-label { animation: none !important; }
+}

@@ -1,0 +1,17 @@
+/* ═══════════════════════════════════════════════════════════════
+   REDUCED MOTION — honour user's OS preference
+═══════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  /* Make animated elements immediately visible */
+  .hero-content, .career-info, .scroll-indicator,
+  .about-hero h1, .about-hero p, .profile-img { opacity: 1 !important; transform: none !important; }
+  .project-card  { opacity: 1 !important; transform: none !important; }
+  .timeline-item { opacity: 1 !important; transform: none !important; }
+  .skill-group   { opacity: 1 !important; transform: none !important; }
+  html { scroll-behavior: auto; }
+}

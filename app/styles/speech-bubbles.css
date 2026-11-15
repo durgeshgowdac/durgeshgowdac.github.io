@@ -1,0 +1,26 @@
+/* Speech bubbles (scenery/bubbleKit.tsx): one drawing, two styles, switched by the theme the same way the Nature / Space scenes are.
+   Lettering contrast: Nature #263f24 on #fbfdf4 ≈ 10:1; Space #1b1850 on #eeecff ≈ 14:1. */
+:root {
+    --bub-fill:  #fbfdf4;
+    --bub-line:  #3e6a3a;
+    --bub-ink:   #263f24;
+    --bub-drop:  rgba(40, 80, 40, 0.18);
+    --bub-halo:  transparent;
+}
+[data-theme="dark"] {
+    --bub-fill:  #eeecff;
+    --bub-line:  #8f80ff;
+    --bub-ink:   #1b1850;
+    --bub-drop:  transparent;
+    --bub-halo:  rgba(143, 128, 255, 0.45);
+}
+
+.bub-body { fill: var(--bub-fill); stroke: var(--bub-line); }
+.bub-drop { fill: var(--bub-drop); stroke: none; }
+.bub-halo { fill: none; stroke: var(--bub-halo); }
+.bub-text { fill: var(--bub-ink); stroke: none; font-weight: 700; }
+
+.bub-space { display: none; }
+[data-theme="dark"] .bub-nature { display: none; }
+[data-theme="dark"] .bub-space  { display: inline; }
+[data-theme="dark"] .bub-text   { font-weight: 650; }

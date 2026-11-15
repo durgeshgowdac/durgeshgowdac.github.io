@@ -1,0 +1,43 @@
+/* ── Home: hero text column, hello line, projects header art ── */
+.hero-text-col .chapter-mark { margin-bottom: 0; }
+/* Hello line: "> hello, world" in the terminal voice, right above the name */
+.hello-line {
+  display: flex; align-items: baseline; gap: 10px;
+  margin: 12px 0 -22px;   /* sits between the chapter mark and the name (top+bottom = the hero-length budget) */
+  min-height: 1.5em;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  color: var(--fg2);
+  white-space: nowrap;
+  opacity: 0;
+  animation: fadeUp 0.9s var(--ease) 0.1s forwards;
+}
+.hello-prompt { color: var(--scene-warm); font-weight: 600; }
+.hello-caret {
+  display: inline-block; align-self: center;
+  width: 0.55em; height: 1.05em;
+  background: var(--scene-warm);
+  border-radius: 1px;
+  margin-left: -4px;
+  animation: helloBlink 1.05s steps(1) infinite;
+}
+@keyframes helloBlink { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
+@media (max-width: 480px) { .hello-line { font-size: clamp(0.66rem, 3.7vw, 0.82rem); overflow: hidden; } }
+@media (prefers-reduced-motion: reduce) { .hello-caret { animation: none; } }
+.hero h1 { margin-top: 0; }
+
+/* Projects: the trail strip (JourneyStrip) runs full-bleed along the top, right under the marquee */
+.projects-section { position: relative; }
+.projects-section > .container { position: relative; z-index: 1; }
+.journey {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 780 / 150;   /* the whole trail/cruise is always visible — it scales with the width instead of being cropped */
+  color: var(--sc-line);
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%);
+}

@@ -1,0 +1,28 @@
+/* ── Story marks: "Ch. 02 · The Trail — every project is a waypoint" ── */
+.t-space { display: none; }
+[data-theme="dark"] .t-nature { display: none; }
+[data-theme="dark"] .t-space  { display: inline; }
+.chapter-mark {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-bottom: 14px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg3);
+}
+.chapter-n {
+  padding: 4px 10px;
+  border: 1px solid var(--card-border);
+  border-radius: 999px;
+  background: var(--card-bg);
+  color: var(--fg2);
+  white-space: nowrap;
+}
+.chapter-rule { width: 26px; height: 1px; background: var(--fg3); opacity: 0.55; }
+.chapter-mark b  { font-weight: 500; color: var(--fg2); }
+.chapter-mark em { font-style: normal; text-transform: none; letter-spacing: 0.02em; }
+.contact-section .chapter-mark { justify-content: center; }
