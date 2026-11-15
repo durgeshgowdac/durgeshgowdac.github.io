@@ -7,7 +7,7 @@ services:
     envVars:
       - key: NODE_VERSION
         value: "22"
-      - key: NEXT_PUBLIC_NOINDEX
-        value: "true"
+      - key: NEXT_PUBLIC_SITE_URL
+        value: https://durgeshgowdac.onrender.com
       - key: GITHUB_TOKEN
         sync: false
