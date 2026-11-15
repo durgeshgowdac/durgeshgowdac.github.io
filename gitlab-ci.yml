@@ -1,0 +1,21 @@
+image: node:22
+
+pages:
+  stage: deploy
+  variables:
+    NEXT_PUBLIC_NOINDEX: "true"
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - .npm/
+  script:
+    - npm ci --cache .npm --prefer-offline
+    - npm run build
+    - mv out public
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
