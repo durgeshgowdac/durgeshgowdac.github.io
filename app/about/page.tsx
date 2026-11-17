@@ -18,8 +18,13 @@ function Rich({ text }: { text: string }) {
   return <>{text.split('**').map((part, i) => (i % 2 ? <strong key={i}>{part}</strong> : part))}</>
 }
 
+/** Portrait sources, tried in order: the GitHub avatar first, then the local photo in public/, then the "DG" initials. */
+const PHOTO_SOURCES = ['https://avatars.githubusercontent.com/u/65192493?v=4', '/avatar.jpeg']
+
 export default function AboutPage() {
-  const [photoOk, setPhotoOk] = useState(true)
+  const [photoIdx, setPhotoIdx] = useState(0)
+  const photoOk = photoIdx < PHOTO_SOURCES.length
+  const nextPhoto = () => setPhotoIdx(i => i + 1)
   const photoRef = useRef<HTMLImageElement>(null)
   const tlRefs    = useRef<(HTMLLIElement | null)[]>([])
   const skillRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -27,7 +32,7 @@ export default function AboutPage() {
   // the photo is hot-linked; if it failed before hydration, onError was missed, so check once mounted
   useEffect(() => {
     const i = photoRef.current
-    if (i && i.complete && i.naturalWidth === 0) setPhotoOk(false)
+    if (i && i.complete && i.naturalWidth === 0) nextPhoto()
   }, [])
 
   useEffect(() => {
@@ -104,20 +109,21 @@ export default function AboutPage() {
                 </p>
               </div>
               <div className="profile-col">
-                {/* Portrait: currently the GitHub avatar. To use a local photo, drop it in public/ and change only the src. */}
+                {/* Portrait: the GitHub avatar, falling back to public/avatar.jpeg if it doesn't load, then to the initials. */}
                 <div className="profile-frame">
                   <div className="profile-halo" aria-hidden="true" />
                   <ProfileHalo />
                   {photoOk ? (
                       <img
+                          key={photoIdx}
                           ref={photoRef}
-                          src="https://avatars.githubusercontent.com/u/65192493?v=4"
+                          src={PHOTO_SOURCES[photoIdx]}
                           alt="Durgesh Gowda C"
                           className="profile-img"
                           width={200}
                           height={256}
                           referrerPolicy="no-referrer"
-                          onError={() => setPhotoOk(false)}
+                          onError={nextPhoto}
                       />
                   ) : (
                       <div className="profile-img profile-fallback" role="img" aria-label="Durgesh Gowda C">DG</div>

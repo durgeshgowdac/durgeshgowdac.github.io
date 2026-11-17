@@ -37,13 +37,20 @@ jobs:
         run: |
           set -euo pipefail
           test -f out/index.html
+
+          # The token travels in an HTTP header, never in the URL, so it can't end up in a remote, an error message or a process list.
+          # The encoded form is a different string from the secret, so it is masked explicitly as well.
+          BASIC="$(printf '%s:%s' "$CODEBERG_USER" "$CODEBERG_TOKEN" | base64 -w0)"
+          echo "::add-mask::$BASIC"
+          AUTH="Authorization: Basic $BASIC"
+          REMOTE="https://codeberg.org/${CODEBERG_USER}/pages.git"
+
           cd out
           git init -b pages
           git config user.name "github-actions"
           git config user.email "actions@users.noreply.github.com"
           git add -A
           git commit -m "Deploy ${GITHUB_SHA} ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
-          REMOTE="https://${CODEBERG_USER}:${CODEBERG_TOKEN}@codeberg.org/${CODEBERG_USER}/pages.git"
-          git push --force "$REMOTE" pages
+          git -c http.extraheader="$AUTH" push --force "$REMOTE" pages
           echo "pushed:   $(git rev-parse HEAD)"
-          echo "codeberg: $(git ls-remote "$REMOTE" refs/heads/pages | cut -f1)"
+          echo "codeberg: $(git -c http.extraheader="$AUTH" ls-remote "$REMOTE" refs/heads/pages | cut -f1)"

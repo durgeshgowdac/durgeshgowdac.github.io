@@ -1,0 +1,407 @@
+{
+ "groups": [
+  {
+   "id": "avatar",
+   "world": "Nature mode",
+   "title": "Avatar: The Last Airbender",
+   "theme": "light",
+   "members": [
+    {
+     "part": "Aang",
+     "name": "Aang",
+     "where": "Hero (meditating on a rock, staff on his left, glowing arrows and tattoos that fade to a small aura; `meditate.tsx`, `avatarState.tsx`); Contact gag; Ch.02 strip (Avatar State inside the four-element rings); About card marks",
+     "says": "Hero: meditates. Contact: gets his staff knocked out — \"Not cool, Sokka!\" Ch.02: \"That was supposed to be a small commit.\""
+    },
+    {
+     "part": "Katara",
+     "name": "Katara",
+     "where": "Contact gag; Appa flight scene; Ch.02 strip (water streams); Water mark",
+     "says": "Contact: \"You break it, you fix it!\" Ch.02: \"Breathe. Then commit.\""
+    },
+    {
+     "part": "Sokka",
+     "name": "Sokka",
+     "where": "Contact gag (boomerang thrower); Appa flight scene; Ch.02 strip (planning board, pencil)",
+     "says": "Contact: \"Katara, get the glue!\" Flight: \"Appa Yip Yip!\" Ch.02: \"The plan is flawless. I just haven't found the flaw yet.\""
+    },
+    {
+     "part": "Toph",
+     "name": "Toph",
+     "where": "Hero summit (\"Melon-Lord\" pose); Contact gag; Appa flight scene; Ch.02 strip (boulder lift); Earth mark",
+     "says": "Hero: \"I am not Toph. I am Melon-Lord! Muah-ha-ha-ha-ha!\" Contact: \"Looks fine to me!\" Ch.02: \"Found your bug, Snoozles. It was under this rock.\""
+    },
+    {
+     "part": "Zuko",
+     "name": "Zuko",
+     "where": "Ch.02 strip (fire streams); Fire mark",
+     "says": "\"I'm not angry. This is my debugging face.\""
+    },
+    {
+     "part": "Iroh",
+     "name": "Iroh",
+     "where": "Ch.02 strip (tea table); About \"Education\" card icon",
+     "says": "\"Pressure is just heat with a deadline. Have some tea.\""
+    },
+    {
+     "part": "AppaSeamless",
+     "name": "Appa",
+     "where": "Hero and Contact (flying toward the sun, fading into its glow); About focal (flying); Appa flight scene (Sokka, Toph, Katara riding, Aang gliding); Ch.02 strip",
+     "says": "Carries the party. Momo sits under his chin in the project-page header."
+    },
+    {
+     "part": "Momo",
+     "name": "Momo",
+     "where": "Hero summit (orbiting the peak); Contact; Appa flight; Aang's smaller rock (stationary); Ch.02 strip",
+     "says": "Silent. Flaps when he flies."
+    }
+   ]
+  },
+  {
+   "id": "pokemon",
+   "world": "Nature mode",
+   "title": "Pokémon",
+   "theme": "light",
+   "members": [
+    {
+     "part": "Ash",
+     "name": "Ash (4'7\")",
+     "where": "About Ch.01, \"The Catch\" strip",
+     "says": "Throws the Poké Ball. \"Yayyy! I caught a Snorlax!\" then \"Man, I'm glad we didn't have to carry him home!\""
+    },
+    {
+     "part": "Pikachu",
+     "name": "Pikachu",
+     "where": "Ch.01 strip, on Ash's shoulder",
+     "says": "Blinks."
+    },
+    {
+     "part": "Snorlax",
+     "name": "Snorlax (5'5\")",
+     "where": "Ch.01 strip, head resting on a boulder",
+     "says": "Sleeps (Zzz), breathes; is caught."
+    },
+    {
+     "part": "Ball",
+     "name": "Poké Ball",
+     "where": "About \"Skills\" card mark (the large ball, as drawn there); the same ball is thrown in the Ch.01 strip",
+     "says": "The catch."
+    }
+   ]
+  },
+  {
+   "id": "nature-originals",
+   "world": "Nature mode",
+   "title": "Not from a franchise",
+   "theme": "light",
+   "members": [
+    {
+     "part": "Hiker",
+     "name": "The Hiker",
+     "where": "Hero climb, scroll rail, journey strip",
+     "says": "The site's own mascot. Plants the flag at the summit: \"Peak perfection\"."
+    },
+    {
+     "part": "Fox",
+     "name": "Fox",
+     "where": "Sports strip; project-page header; forest scenery",
+     "says": "Faces the rabbit across the project-page header."
+    },
+    {
+     "part": "Rabbit",
+     "name": "Rabbit",
+     "where": "Sports strip; project-page header; forest scenery",
+     "says": "Faces the fox across the project-page header."
+    },
+    {
+     "part": "Deer",
+     "name": "Deer",
+     "where": "Sports strip; project-page header; forest scenery",
+     "says": "Stands nearby in the project-page header."
+    },
+    {
+     "part": "Owl",
+     "name": "Owl",
+     "where": "Sports strip; project-page header; forest scenery",
+     "says": "Scenery piece, no lines."
+    }
+   ]
+  },
+  {
+   "id": "gravity-falls",
+   "world": "Space mode",
+   "title": "Gravity Falls",
+   "theme": "dark",
+   "members": [
+    {
+     "part": "Dipper",
+     "name": "Dipper",
+     "where": "Ch.02 \"Portal Under Pressure\" strip; project-page footer",
+     "says": "\"Journal says: clockwise.\""
+    },
+    {
+     "part": "Mabel",
+     "name": "Mabel",
+     "where": "Ch.02 \"Portal Under Pressure\" strip; project-page footer",
+     "says": "\"Needs more glitter!\" then, to Bill: \"Nice portal. Shame about the deadline.\" and \"Rude.\""
+    },
+    {
+     "part": "Stan",
+     "name": "Stan",
+     "where": "Ch.02 \"Portal Under Pressure\" strip; project-page footer",
+     "says": "\"Duct tape fixes everything.\""
+    },
+    {
+     "part": "Soos",
+     "name": "Soos",
+     "where": "Ch.02 \"Portal Under Pressure\" strip; project-page footer",
+     "says": "\"Hey, it's working. Mostly.\""
+    },
+    {
+     "part": "Ford",
+     "name": "Ford",
+     "where": "Ch.02 \"Portal Under Pressure\" strip; project-page footer",
+     "says": "\"Sorry I'm late. Traffic.\""
+    },
+    {
+     "part": "BillCipher",
+     "name": "Bill Cipher",
+     "where": "Ch.02 \"Portal Under Pressure\" strip; project-page footer",
+     "says": "Hovers on the right; the sky reddens as the deadline nears."
+    },
+    {
+     "part": "GfGnome",
+     "name": "Gnome",
+     "where": "Ch.02 \"Portal Under Pressure\" strip; project-page footer",
+     "says": "A prop in the scene, like the Mystery Shack, the Universe Portal and console, a mushroom and the eye in the sky."
+    }
+   ],
+   "note": "Props: Mystery Shack, the Universe Portal and console, a mushroom and the eye in the sky (see [illustrations.md](illustrations.md#gravity-falls))."
+  },
+  {
+   "id": "star-wars",
+   "world": "Space mode",
+   "title": "Star Wars",
+   "theme": "dark",
+   "members": [
+    {
+     "part": "Luke",
+     "name": "Luke Skywalker",
+     "where": "Duel (Contact section, project-page header band, **project-page footer**); hero (frozen clash); Space 404",
+     "says": "Duel: \"I'll never join you.\" 404: \"No. Tatooine.\""
+    },
+    {
+     "part": "Vader",
+     "name": "Darth Vader",
+     "where": "Same duel scenes; hero (frozen clash)",
+     "says": "Duel: \"Luke, I am your father.\""
+    },
+    {
+     "part": "Grogu",
+     "name": "Grogu",
+     "where": "Duel (on a rock beside the fight); hero",
+     "says": "Hero: \"Patu\" every 5 s. Duel, one line per cycle: \"A family reunion, this is?\" / \"Father of the year, you are.\" / \"Child support, you owe.\" / \"A lawyer, we need.\" / \"Bad father, he is.\""
+    },
+    {
+     "part": "Falcon",
+     "name": "Millennium Falcon",
+     "where": "About \"Skills\" card icon",
+     "says": "The ship."
+    }
+   ],
+   "extra": [
+    {
+     "name": "Faction marks",
+     "where": "Ch.02 hackathon cards: Galactic Empire, Rebel Alliance, Jedi Order, Sith Order",
+     "says": "Font Awesome icons in faction colours; see [Element marks](#element-marks)."
+    }
+   ]
+  },
+  {
+   "id": "harry-potter",
+   "world": "Space mode",
+   "title": "Harry Potter",
+   "theme": "dark",
+   "members": [
+    {
+     "part": "Harry",
+     "name": "Harry Potter",
+     "where": "About Ch.01 Quidditch strip (Seeker); hero and About focal (flying with Hedwig); Space 404",
+     "says": "Strip: \"I've got the snitch!\" Flight: \"To the skies, Hedwig.\" / \"Lead the way, girl!\" 404: \"Is this Hogwarts?\""
+    },
+    {
+     "part": "Hedwig",
+     "name": "Hedwig",
+     "where": "Hero and About focal flight; About \"Achievements\" card",
+     "says": "Flies beside Harry."
+    },
+    {
+     "part": "Snitch",
+     "name": "Golden Snitch",
+     "where": "Quidditch strip; About \"Achievements\" card icon",
+     "says": "Jinks away from a Bludger; caught at the end."
+    },
+    {
+     "part": "Draco",
+     "name": "Draco Malfoy",
+     "where": "Quidditch strip (Slytherin Seeker); Slytherin scoreboard portrait",
+     "says": "Chases the Snitch."
+    },
+    {
+     "part": "Ferret",
+     "name": "The white ferret",
+     "where": "On top of the Slytherin scoreboard",
+     "says": "Tail flicks."
+    }
+   ],
+   "extra": [
+    {
+     "name": "Gryffindor and Slytherin teams",
+     "where": "Quidditch strip (a Chaser, Beater, Keeper and Seeker each)",
+     "says": "Slytherin leads 20–10 until Harry's catch (+150): \"Gryffindor Wins!\" Stands chant \"Go, Go, Gryffindor!\""
+    },
+    {
+     "name": "Quaffle, Bludgers, hoops, scoreboards",
+     "where": "Quidditch strip",
+     "says": "Scene props; drawn in [illustrations.md](illustrations.md#harry-potter)."
+    }
+   ]
+  },
+  {
+   "id": "space-originals",
+   "world": "Space mode",
+   "title": "Not from a franchise",
+   "theme": "dark",
+   "members": [
+    {
+     "part": "Astronaut",
+     "name": "Astronaut",
+     "where": "Hero, journey strip, header and footer skies",
+     "says": "Scenery piece, no lines."
+    },
+    {
+     "part": "Alien",
+     "name": "Alien",
+     "where": "Hero, journey strip, header and footer skies",
+     "says": "Scenery piece, no lines."
+    },
+    {
+     "part": "Ufo",
+     "name": "UFO",
+     "where": "Hero, journey strip, header and footer skies",
+     "says": "Scenery piece, no lines."
+    },
+    {
+     "part": "Rover",
+     "name": "Rover",
+     "where": "Hero, journey strip, header and footer skies",
+     "says": "Scenery piece, no lines."
+    },
+    {
+     "part": "Rocket",
+     "name": "Rocket",
+     "where": "Hero, journey strip, header and footer skies",
+     "says": "Multistage, and breaks apart."
+    },
+    {
+     "part": "Satellite",
+     "name": "Satellite",
+     "where": "Hero, journey strip, header and footer skies",
+     "says": "Scenery piece, no lines."
+    },
+    {
+     "part": "Comet",
+     "name": "Comet",
+     "where": "Hero, journey strip, header and footer skies",
+     "says": "Scenery piece, no lines."
+    }
+   ],
+   "note": "Astronaut, Alien, UFO, Rover, Rocket, Satellite and Comet appear across the hero, journey strip, header and footer skies."
+  },
+  {
+   "id": "marks-nature",
+   "world": "Element marks",
+   "title": "Nature: the four elements",
+   "theme": "light",
+   "members": [
+    {
+     "part": "MarkAir",
+     "name": "Air",
+     "where": "Ch.02 hackathon card element marks; loading spinner",
+     "hint": "Travel light, ship fast"
+    },
+    {
+     "part": "MarkWater",
+     "name": "Water",
+     "where": "Ch.02 hackathon card element marks; loading spinner",
+     "hint": "Adapt when the plan breaks"
+    },
+    {
+     "part": "MarkEarth",
+     "name": "Earth",
+     "where": "Ch.02 hackathon card element marks; loading spinner",
+     "hint": "Stay steady under load"
+    },
+    {
+     "part": "MarkFire",
+     "name": "Fire",
+     "where": "Ch.02 hackathon card element marks; loading spinner",
+     "hint": "Meet the deadline"
+    }
+   ]
+  },
+  {
+   "id": "marks-space",
+   "world": "Element marks",
+   "title": "Space: Star Wars factions",
+   "theme": "dark",
+   "members": [
+    {
+     "part": "MarkGalacticEmpire",
+     "name": "Galactic Empire",
+     "where": "Ch.02 hackathon card element marks; loading spinner",
+     "hint": "Process over improvisation"
+    },
+    {
+     "part": "MarkRebelAlliance",
+     "name": "Rebel Alliance",
+     "where": "Ch.02 hackathon card element marks; loading spinner",
+     "hint": "Outnumbered, still shipping"
+    },
+    {
+     "part": "MarkJediOrder",
+     "name": "Jedi Order",
+     "where": "Ch.02 hackathon card element marks; loading spinner",
+     "hint": "Calm under pressure"
+    },
+    {
+     "part": "MarkSithOrder",
+     "name": "Sith Order",
+     "where": "Ch.02 hackathon card element marks; loading spinner",
+     "hint": "Unchecked ambition"
+    }
+   ]
+  }
+ ],
+ "worlds": [
+  [
+   "Avatar",
+   "Hero summit, Contact gag, About focal, Appa flight, Ch.02 header strip, element marks, card icons"
+  ],
+  [
+   "Pokémon",
+   "About Ch.01 strip"
+  ],
+  [
+   "Gravity Falls",
+   "Ch.02 strip (Space), project-page footer"
+  ],
+  [
+   "Star Wars",
+   "Duel in Contact, project header band and project footer; hero still; 404; Ch.02 element marks"
+  ],
+  [
+   "Harry Potter",
+   "About Ch.01 strip; hero and About focal flight; 404"
+  ]
+ ]
+}

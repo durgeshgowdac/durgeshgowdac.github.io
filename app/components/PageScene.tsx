@@ -12,6 +12,7 @@ import { TophForm, MomoForm } from '@/app/components/scenery/avatarCast'
 import SpeechBubble from '@/app/components/scenery/SpeechBubble'
 import { SummitPeak, FramingRange, ClimbingHiker, BandMountains, ContactSummit, SUMMIT_PAD } from '@/app/components/scenery/HeroClimb'
 import HeroDuelStill from '@/app/components/HeroDuelStill'
+import DuelScene from '@/app/components/DuelScene'
 import HarryFlight, { HarryCrash } from '@/app/components/HarryFlight'
 import { useFlightFrames, splineY } from '@/app/components/scenery/flight'
 import {
@@ -952,6 +953,9 @@ export default function PageScene({ variant = 'hero', bandOnly = false }: { vari
             <div ref={rootRef} className={`scene scene--${variant}`} aria-hidden="true">
                 {bandOnly ? null : topSky ? <TopSky variant={variant} /> : <Sky variant={variant} />}
                 <Band variant={variant} />
+                {/* Project header, Space: "A Family Matter" on the band's near ground, laid over the band's own 1440 × 190 box (the `band` layout: fixed, centred on x = 720,
+                    which the Space band above leaves clear). Space-only: the overlay is display:none in Nature, where the Avatar party owns this stretch. */}
+                {variant === 'project' && <DuelScene band />}
                 {variant === 'hero' && <Focal />}
                 {variant === 'about' && <AboutFocal />}
             </div>

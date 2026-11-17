@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="public/logo.svg" alt="durgeshgowdac logo" width="120" height="120">
+
 # durgeshgowdac.
 
 **A portfolio that tells time, changes planets, and has strong opinions about Appa.**
@@ -16,6 +18,23 @@ A PDF resume can list that. It can't show how it felt, so I built a website with
 
 Under the hood: **Next.js 16, React 19 and TypeScript**, exported as a static site. No backend, no tracking, no drama.
 
+## Where to find it
+
+**Live site:** [durgeshgowdac.github.io](https://durgeshgowdac.github.io/)
+
+
+Also deployed on
+
+| Host | URL |
+|---|---|
+| Cloudflare | [portfolio.durgeshgowdac.workers.dev](https://portfolio.durgeshgowdac.workers.dev/) |
+| Vercel | [durgeshgowdac.vercel.app](https://durgeshgowdac.vercel.app/) |
+| Netlify | [durgeshgowdac.netlify.app](https://durgeshgowdac.netlify.app/) |
+| Firebase | [durgeshgowdac.web.app](https://durgeshgowdac.web.app/) |
+| Render | [durgeshgowdac.onrender.com](https://durgeshgowdac.onrender.com) |
+| Surge | [durgeshgowdac.surge.sh](https://durgeshgowdac.surge.sh/) |
+| Codeberg | [durgeshgowdac.codeberg.page](https://durgeshgowdac.codeberg.page/) |
+
 ## What makes this site a little different
 
 Most portfolios are a list with good manners. This one is closer to a short film that happens to have a contact form.
@@ -28,8 +47,8 @@ Most portfolios are a list with good manners. This one is closer to a short film
 
 ### Drawn by hand, performed live
 
-- **No stock art, no UI kit.** Mountains, rockets, foxes and speech bubbles are inline SVG, and the scenery is code rather than image files. The only pictures in the repo are the logo and the favicon.
-- **It has a cast.** My favourite worlds make cameo appearances, always drawn from scratch:
+- **No stock art, no UI kit.** Mountains, rockets, foxes and speech bubbles are inline SVG, and the scenery is code rather than image files. The only pictures the site uses are the logo and the favicon (the images under `docs/` are generated from the code for the docs pages).
+- **It has a cast.** My favourite worlds make cameo appearances, always drawn from scratch ([who's who](characters.md), [every drawing](illustrations.md), [every scene](scenes.md)):
   - **Avatar: The Last Airbender:** Aang, Appa, Momo, Sokka, Katara and Toph keep the Contact page company, and the whole gang (plus Zuko and Iroh) bends the elements under a hackathon deadline.
   - **Star Wars:** a very polite lightsaber duel, with a small green sidekick who has Things To Say.
   - **Harry Potter:** a broomstick, Hedwig and a Quidditch pitch.
@@ -107,39 +126,43 @@ npm run dev     # http://localhost:3000
 
 Adding a project is a one-entry job: describe it in `app/lib/projects.ts` and the card, the case-study page and the social preview assemble themselves.
 
-## Regenerating the cast artwork
+## Regenerating the illustration docs
 
-Every character is drawn in code (`app/components/scenery/illustrations/`), and `cast/` holds exported copies for `cast.md` and anywhere else you want them: crisp vector files in `cast/svg/`, 1024 px transparent PNGs in `cast/png/` (48 pieces, from Aang to the Sith crest), plus the original contact sheets in `cast/img/`. Nobody has to redraw anything by hand. Change a character in the code, run one command, and the files catch up.
+Every drawing is code (`app/components/scenery/illustrations/`). One tool turns that code into the three pages below and every image on them, so nothing is drawn by hand twice:
+
+- **[characters.md](characters.md):** the cast, with a contact sheet per group, where each character appears and what they say.
+- **[illustrations.md](illustrations.md):** the illustration library, every part in both themes.
+- **[scenes.md](scenes.md):** the strips and page backdrops, photographed from the real components, plus close-up cutaways.
+
+The images are in `art/`: `parts/<light|dark>/` (every part as SVG, plus 1024 px PNGs of the characters), `sheets/`, `characters/` (contact sheets) and `scenes/`.
 
 ```bash
-npm install                  # once; the components need react and react-dom
-bash tools/cast/build.sh     # rewrites cast/svg and cast/png
+npm install                               # once; the components need react and react-dom
+npm run illustrations                     # everything (about 2 minutes)
+bash tools/build.sh parts sheets docs # or name the steps: parts, sheets, scenes, docs
+bash tools/build.sh scenes --no-bg    # scene strips without their sky
 ```
 
-The first run creates a Python virtualenv in `.venv/` at the repo root, installs Playwright into it and downloads Chromium (a few hundred MB, one time). Later runs reuse it and finish in under a minute. If you would rather set it up yourself:
+The first run creates a Python virtualenv in `.venv/` at the repo root, installs Playwright into it and downloads Chromium (a few hundred MB, one time). Delete `.venv/` any time to start fresh.
 
-```bash
-python3 -m venv .venv
-source .venv/bin/activate    # Windows: .venv\Scripts\activate
-pip install playwright
-playwright install chromium
-touch .venv/.cast-ready      # tells build.sh the setup is done
-```
+The build is driven by one manifest, all in `tools/`:
 
-`build.sh` adds `.venv/` to `.gitignore` if the file exists and doesn't already list it. Delete `.venv/` any time to start fresh.
-
-It runs in two steps:
-
-1. **`tools/cast/render-cast.tsx`** is bundled with esbuild (fetched by `npx` on first run) and renders each component to SVG markup on the server.
-2. **`tools/cast/export.py`** drops each piece into Chromium with the site's real theme colours, measures it, crops tightly, bakes every `var()` and `color-mix()` into plain hex, strips the animation, and saves the SVG and PNG.
+1. **`registry.tsx`** (bundled with esbuild) lists every part, cutaway and scene, and server-renders each to SVG markup.
+2. **`render.py`** drops each part into Chromium with the site's real stylesheet and theme switch, crops it tightly, bakes every `var()`, `color-mix()` and class into plain values, strips the animation and saves `art/parts/<light|dark>/<Id>.svg`, plus 1024 px PNGs for the characters. It then composes the gallery sheets and one contact sheet per character group from those same exports, and photographs each scene with the site's own stylesheet.
+3. **`build_art.py`** writes the three pages and fails if they drift from the code (a scene used on a page with no entry, a character pointing at a missing part, a part missing in either theme).
 
 Things worth knowing:
 
-- **Nature characters use the day palette and Space characters the night palette.** Both are read straight from `app/styles/base.css` (and `element-marks.css` for the Star Wars crests), so a colour change on the site shows up in the next export.
-- **Each piece is a still in its default pose.** Appa is the seamless-arrow version, Aang holds his staff, and Draco is Harry's rider in the green look.
-- **Adding a character** is one line in the `items` list in `render-cast.tsx`: a name, a theme (`'light'` or `'dark'`), and the component. The file name is the key.
-- **Not included:** the Quidditch teams, Quaffle, Bludgers and hoops. They are scene props rather than standalone characters.
-- **The exports are for docs and sharing.** The site itself never loads them, so "the scenery is code rather than image files" still holds.
+- **Adding a part:** put its name in a group in `tools/registry.tsx`.
+- **Adding a character:** add the part, then an entry in `tools/characters.json` (`part` is the part's id; the fields are where they appear and what they say).
+- **Adding a scene:** one entry in `SCENES` in `tools/registry.tsx`.
+- **Nature pieces use the day palette and Space pieces the night palette.** Both are read from `app/styles/base.css` (and `element-marks.css` for the Star Wars crests).
+- **The look of the sheets** is set by the numbers near the bottom of `tools/render.py` (cell size, columns, maximum scale).
+- **The exports are for docs and sharing.** The site never loads them, so "the scenery is code rather than image files" still holds.
+
+
+
+These are mirrors of the same build, kept for redundancy. The GitHub Pages address is the canonical one.
 
 ## Say hello
 
@@ -153,6 +176,8 @@ I'm open to AI Engineer, ML Engineer, Applied AI, NLP, Computer Vision and GenAI
 <div align="center">
 
 ---
+
+<img src="public/logo.svg" alt="durgeshgowdac logo" width="56" height="56">
 
 *"The Revolution will be A/B tested."* — Aaron Swartz, who gets the last word in the footer too.
 

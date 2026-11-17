@@ -56,7 +56,7 @@ Desktop.ini
 .venv/
 __pycache__/
 *.pyc
-tools/cast/.build/
+tools/.build/
 
 # --- Packaging leftovers ---
 *.tgz
