@@ -6,7 +6,7 @@ import ProgressBar from '@/app/components/ProgressBar'
 import CustomCursor from '@/app/components/CustomCursor'
 import Footer from '@/app/components/Footer'
 import ScrollRail from '@/app/components/ScrollRail'
-import { SITE_URL, GOOGLE_VERIFICATION, BING_VERIFICATION } from '@/app/lib/site'
+import { SITE_URL, GOOGLE_VERIFICATION } from '@/app/lib/site'
 import { pageMeta, SITE_NAME } from '@/app/lib/seo'
 import { CONTACTS } from '@/app/lib/contacts'
 import { THEME_COLOR_LIGHT, THEME_COLOR_DARK } from '@/app/lib/theme'
@@ -80,7 +80,6 @@ export const metadata: Metadata = {
   // ownership tokens for Google Search Console / Bing Webmaster Tools (see lib/site.ts); omitted while empty
   verification: {
     google: GOOGLE_VERIFICATION.length ? GOOGLE_VERIFICATION : undefined,
-    other: BING_VERIFICATION ? { 'msvalidate.01': BING_VERIFICATION } : undefined,
   },
   title: { default: 'Durgesh Gowda C - Portfolio', template: '%s · Durgesh Gowda C' },
   description:
