@@ -7,7 +7,8 @@ import SpaceNotFoundScene from '@/app/components/SpaceNotFoundScene'
 import DuelScene from '@/app/components/DuelScene'
 import { Signpost, Planet, Pine, Aurora, Nebula } from '@/app/components/scenery/illustrations'
 
-export const metadata: Metadata = { title: 'Page not found' }
+// no canonical: the 404 page must not inherit the home page's (it would tell search engines every missing URL is the home page)
+export const metadata: Metadata = { title: 'Page not found', alternates: { canonical: null } }
 
 /** 404 — told in both worlds: Nature has Appa and the gang taking a wrong turn (Sokka: "Appa Yip Yip!"); Space has Harry (on his Nimbus) and Luke either side of the signpost: "Is this Hogwarts?" / "No. Tatooine." — hence the headline, "Wrong galaxy. Wrong school." */
 export default function NotFound() {

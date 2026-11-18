@@ -19,7 +19,7 @@ function Rich({ text }: { text: string }) {
 }
 
 /** Portrait sources, tried in order: the GitHub avatar first, then the local photo in public/, then the "DG" initials. */
-const PHOTO_SOURCES = ['https://avatars.githubusercontent.com/u/65192493?v=4', '/avatar.jpeg']
+const PHOTO_SOURCES = ['https://avatars.githubusercontent.com/u/65192493?v=4', '/profile.jpeg']
 
 export default function AboutPage() {
   const [photoIdx, setPhotoIdx] = useState(0)

@@ -4,6 +4,7 @@ import ProjectDetail from '@/app/projects/[slug]/ProjectDetail'
 import type { Metadata } from 'next'
 import type { RepoInfo } from '@/app/components/ProjectExtras'
 import { stripRich } from '@/app/components/Rich'
+import { pageMeta } from '@/app/lib/seo'
 
 /**
  * Language / last push / stars for the repository link. Runs once at build time (static export), so it
@@ -39,7 +40,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params
   const project = getProject(slug)
   if (!project) return {}
-  return { title: project.title, description: stripRich(project.desc) }
+  const description = stripRich(project.desc)
+  return {
+    title: project.title,
+    description,
+    ...pageMeta({ title: `${project.title} · Durgesh Gowda C`, description, path: `/projects/${project.slug}/` }),
+  }
 }
 
 export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {

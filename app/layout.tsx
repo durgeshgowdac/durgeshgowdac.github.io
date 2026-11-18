@@ -6,7 +6,8 @@ import ProgressBar from '@/app/components/ProgressBar'
 import CustomCursor from '@/app/components/CustomCursor'
 import Footer from '@/app/components/Footer'
 import ScrollRail from '@/app/components/ScrollRail'
-import { SITE_URL } from '@/app/lib/site'
+import { SITE_URL, GOOGLE_VERIFICATION, BING_VERIFICATION } from '@/app/lib/site'
+import { pageMeta, SITE_NAME } from '@/app/lib/seo'
 import { CONTACTS } from '@/app/lib/contacts'
 import { THEME_COLOR_LIGHT, THEME_COLOR_DARK } from '@/app/lib/theme'
 
@@ -64,10 +65,10 @@ const JSON_LD = {
 }
 
 const IS_PREVIEW_BUILD =
-  process.env.NEXT_PUBLIC_NOINDEX === 'true' ||
-  (!!process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'production') ||
-  (!!process.env.NETLIFY && process.env.CONTEXT !== undefined && process.env.CONTEXT !== 'production') ||
-  (!!process.env.CF_PAGES && process.env.CF_PAGES_BRANCH !== undefined && process.env.CF_PAGES_BRANCH !== 'main')
+    process.env.NEXT_PUBLIC_NOINDEX === 'true' ||
+    (!!process.env.VERCEL_ENV && process.env.VERCEL_ENV !== 'production') ||
+    (!!process.env.NETLIFY && process.env.CONTEXT !== undefined && process.env.CONTEXT !== 'production') ||
+    (!!process.env.CF_PAGES && process.env.CF_PAGES_BRANCH !== undefined && process.env.CF_PAGES_BRANCH !== 'main')
 
 export const metadata: Metadata = {
   // metadataBase resolves relative OG/Twitter image URLs to absolute ones.
@@ -76,9 +77,20 @@ export const metadata: Metadata = {
   // Keep preview/branch deploys out of search results, but never the production site (including
   // GitHub Pages, where none of these variables exist). Set NEXT_PUBLIC_NOINDEX=true to force noindex.
   robots: IS_PREVIEW_BUILD ? { index: false, follow: false } : undefined,
+  // ownership tokens for Google Search Console / Bing Webmaster Tools (see lib/site.ts); omitted while empty
+  verification: {
+    google: GOOGLE_VERIFICATION.length ? GOOGLE_VERIFICATION : undefined,
+    other: BING_VERIFICATION ? { 'msvalidate.01': BING_VERIFICATION } : undefined,
+  },
   title: { default: 'Durgesh Gowda C - Portfolio', template: '%s · Durgesh Gowda C' },
   description:
-    'Portfolio of Durgesh Gowda C, an AI/ML engineer building production computer-vision, NLP and GenAI systems.',
+      'Portfolio of Durgesh Gowda C, an AI/ML engineer building production computer-vision, NLP and GenAI systems.',
+  // the home page's tags (the page itself is a client component and can't export metadata); every other page sets its own via pageMeta
+  ...pageMeta({
+    title: SITE_NAME,
+    description: 'Portfolio of Durgesh Gowda C, an AI/ML engineer building production computer-vision, NLP and GenAI systems.',
+    path: '/',
+  }),
 }
 
 export const viewport: Viewport = {
@@ -91,16 +103,16 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth" className={`${dmSerif.variable} ${dmMono.variable}`}>
+      <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth" className={`${dmSerif.variable} ${dmMono.variable}`}>
       <head suppressHydrationWarning>
         {/* Runs before hydration/paint so a returning visitor's choice (or the
             new dark/Space default for first-time visitors) never flashes the
             other theme first. Kept intentionally tiny and dependency-free. */}
         <script
-          dangerouslySetInnerHTML={{
-            // A saved choice always wins. Otherwise: Space (dark) from 7 pm to 6 am local time, Nature (light) by day.
-            __html: `(function(){var h=new Date().getHours(),night=h>=19||h<6,d=night;try{var t=localStorage.getItem('theme');if(t==='dark')d=true;else if(t==='light')d=false;}catch(e){}if(d)document.documentElement.setAttribute('data-theme','dark');})();`,
-          }}
+            dangerouslySetInnerHTML={{
+              // A saved choice always wins. Otherwise: Space (dark) from 7 pm to 6 am local time, Nature (light) by day.
+              __html: `(function(){var h=new Date().getHours(),night=h>=19||h<6,d=night;try{var t=localStorage.getItem('theme');if(t==='dark')d=true;else if(t==='light')d=false;}catch(e){}if(d)document.documentElement.setAttribute('data-theme','dark');})();`,
+            }}
         />
         {/* Font Awesome, self-hosted and trimmed to the icons in use (/public/fa, no third-party CDN) */}
         <link rel="stylesheet" href="/fa/css/icons.css" />
@@ -111,15 +123,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </noscript>
       </head>
       <body suppressHydrationWarning>
-        {/* Site chrome lives here once, so it is not remounted on every route change. */}
-        <ProgressBar />
-        <CustomCursor />
-        <a className="skip-link" href="#main">Skip to content</a>
-        <Header />
-        <ScrollRail />
-        <main id="main" tabIndex={-1}>{children}</main>
-        <Footer />
+      {/* Site chrome lives here once, so it is not remounted on every route change. */}
+      <ProgressBar />
+      <CustomCursor />
+      <a className="skip-link" href="#main">Skip to content</a>
+      <Header />
+      <ScrollRail />
+      <main id="main" tabIndex={-1}>{children}</main>
+      <Footer />
       </body>
-    </html>
+      </html>
   )
 }
